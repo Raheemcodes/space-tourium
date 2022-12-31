@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./app/shared/shared";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --main-black: #0b0d17;
+  --main-blue: #d0d6f9;
+  --main-color: #fff;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-size: toRem(18);
+  background-color: var(--main-black);
+  color: var(--main-color);
+}
