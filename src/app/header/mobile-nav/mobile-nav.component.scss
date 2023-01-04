@@ -6,15 +6,22 @@
   width: calc(254 / 357) * 100%;
   height: 100%;
   top: 0;
-  right: 0;
+  right: calc(-254 / 357) * 100%;
+  opacity: 0;
   bottom: 0;
   z-index: 4;
   padding: toRem(88) 0;
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(40.7742px);
+  transition: all 0.3s ease-out;
 
   @media screen and (min-width: $md) {
     display: none;
+  }
+
+  &.opened {
+    opacity: 1;
+    right: 0;
   }
 }
 
@@ -28,4 +35,38 @@
   @include display-flex();
   gap: toRem(12);
   padding: toRem(16) toRem(32);
+  border-right: toRem(3) solid #0000;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+
+  span {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: toRem(16);
+    font-weight: 400;
+    line-height: toRem(19);
+    letter-spacing: toRem(2.7);
+
+    &.bold {
+      font-weight: bold;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.5;
+      border-right: toRem(3) solid var(--main-color);
+
+      span {
+        color: var(--main-blue);
+      }
+    }
+  }
+
+  &.active {
+    border-right: toRem(3) solid var(--main-color);
+
+    span {
+      color: var(--main-color);
+    }
+  }
 }

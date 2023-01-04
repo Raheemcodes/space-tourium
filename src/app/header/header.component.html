@@ -1,5 +1,5 @@
 <div class="main-header">
-  <div class="logo">
+  <div class="logo" routerLink=".">
     <img
       width="48"
       height="48"
@@ -44,13 +44,15 @@
         <span class="bold">03</span><span>TECHNOLOGY</span>
       </li>
     </ul>
+
+    <div class="line"></div>
     <!--
     <div class="active-nav__identifier-track">
       <div class="active-nav__identifier" #activeIdentifier></div>
     </div> -->
   </nav>
 
-  <button class="toggle-btn">
+  <button class="toggle-btn" #toggleBtn (click)="toggleNav()">
     <div class="toggle-line up"></div>
     <div class="toggle-line middle"></div>
     <div class="toggle-line down"></div>

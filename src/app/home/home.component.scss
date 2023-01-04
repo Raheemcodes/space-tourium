@@ -1,15 +1,143 @@
+@import "../shared/shared";
+
 main {
   width: 100%;
   height: 100%;
+  background-image: url(../../assets/background/background-home-mobile.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: toRem(88) toRem(24) 0;
+
+  @media screen and (min-width: $md) {
+    padding: toRem(99) toRem(24) 0;
+    background-image: url(../../assets/background/background-home-tablet.jpg);
+  }
 }
 
-.bg-img {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
+// .bg-img {
+//   overflow: hidden;
+//   width: 100%;
+//   height: 100%;
+// }
 
-  img {
-    object-position: center top;
-    object-fit: fill;
+.overview {
+  width: 100%;
+  max-width: toRem(400);
+  margin: toRem(112 - 88) auto toRem(81);
+
+  @media screen and (min-width: $md) {
+    max-width: toRem(450);
+    margin: toRem(106) auto toRem(156);
+  }
+
+  .question {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: toRem(16);
+    font-weight: 400;
+    line-height: toRem(19);
+    letter-spacing: toRem(2.7);
+    text-align: center;
+    margin-bottom: toRem(16);
+
+    @media screen and (min-width: $md) {
+      font-size: toRem(20);
+      font-weight: 400;
+      line-height: toRem(24);
+      letter-spacing: toRem(3.375);
+      margin-bottom: toRem(24);
+    }
+  }
+
+  .title {
+    font-family: "Bellefair", serif;
+    font-size: toRem(80);
+    font-weight: 400;
+    line-height: toRem(100);
+    text-align: center;
+    margin-bottom: toRem(16);
+
+    @media screen and (min-width: $md) {
+      font-size: toRem(150);
+      font-weight: 400;
+      line-height: toRem(150);
+      text-align: left;
+      margin-bottom: toRem(24);
+    }
+  }
+
+  .text {
+    font-family: "Barlow", sans-serif;
+    font-size: toRem(15);
+    font-weight: 400;
+    line-height: toRem(25);
+    text-align: center;
+
+    @media screen and (min-width: $md) {
+      font-size: toRem(16);
+      font-weight: 400;
+      line-height: toRem(28);
+    }
+  }
+}
+
+button {
+  position: relative;
+  display: block;
+  font-family: "Bellefair", serif;
+  font-size: toRem(20);
+  font-weight: 400;
+  line-height: toRem(23);
+  letter-spacing: toRem(1.25);
+  text-align: center;
+  color: var(--main-black);
+  background-color: var(--main-color);
+  width: toRem(150);
+  height: toRem(150);
+  border-radius: 50%;
+  border: none;
+  margin: auto;
+  cursor: pointer;
+  @include centered();
+
+  &::after {
+    width: toRem(150);
+    height: toRem(150);
+    content: "";
+    position: absolute;
+
+    background: var(--main-color);
+    mix-blend-mode: normal;
+    opacity: 0.1;
+    transition: all 0.3s ease-out;
+    border-radius: 50%;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      &::after {
+        width: toRem(150 + 88);
+        height: toRem(150 + 88);
+      }
+    }
+  }
+
+  @media screen and (min-width: $md) {
+    width: toRem(242);
+    height: toRem(242);
+    font-size: toRem(32);
+    font-weight: 400;
+    line-height: toRem(37);
+    letter-spacing: toRem(2);
+    text-align: center;
+
+    @media (hover: hover) {
+      &:hover {
+        &::after {
+          width: toRem(242 + 88);
+          height: toRem(242 + 88);
+        }
+      }
+    }
   }
 }

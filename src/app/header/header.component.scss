@@ -7,18 +7,27 @@
   right: 0;
   z-index: 5;
   width: 100%;
+  min-width: toRem(280);
   @include between-centered();
+
+  @media screen and (min-width: $xl-sp) {
+    padding: toRem(40) toRem(14) 0 toRem(41);
+  }
 }
 
 .logo {
   width: toRem(40);
   height: toRem(40);
   margin: toRem(24);
+  cursor: pointer;
 
   @media screen and (min-width: $md) {
     width: toRem(48);
     height: toRem(48);
     margin: toRem(24) toRem(39);
+  }
+  @media screen and (min-width: $xl-sp) {
+    margin: 0;
   }
 
   img {
@@ -36,6 +45,7 @@
   height: toRem(29);
   padding: toRem(4);
   margin: auto toRem(24);
+  cursor: pointer;
 
   @media screen and (min-width: $md) {
     display: none;
@@ -76,20 +86,33 @@
   @media screen and (min-width: $md) {
     display: block;
   }
+  @media screen and (min-width: $xl-sp) {
+    padding: 0 toRem(165) 0 toRem(123);
+  }
 }
 
 .desktop-nav__list {
-  margin: toRem(40) 0 0;
+  // margin: toRem(40) 0 0;
   list-style: none;
   @include display-flex();
   gap: toRem(32);
 
-  .desktop-nav__list-item {
-    padding: toRem(8) toRem(8) toRem(36);
-    transition: all 0.3s ease-out;
-    cursor: pointer;
-    border-bottom: toRem(3) solid #0000;
+  @media screen and (min-width: $xl-sp) {
+    gap: toRem(48);
+  }
+}
 
+.desktop-nav__list-item {
+  padding: toRem(40) toRem(8) toRem(37);
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+  border-bottom: toRem(3) solid #0000;
+
+  @media screen and (min-width: $xl-sp) {
+    padding: toRem(40) 0 toRem(37);
+  }
+
+  @media (hover: hover) {
     &:hover {
       opacity: 0.5;
       border-bottom: toRem(3) solid var(--main-color);
@@ -98,13 +121,13 @@
         color: var(--main-blue);
       }
     }
+  }
 
-    &.active {
-      border-bottom: toRem(3) solid var(--main-color);
+  &.active {
+    border-bottom: toRem(3) solid var(--main-color);
 
-      span {
-        color: var(--main-color);
-      }
+    span {
+      color: var(--main-color);
     }
   }
 
@@ -116,20 +139,48 @@
     letter-spacing: toRem(2.3625);
     color: var(--main-color);
 
+    @media screen and (min-width: $xl-sp) {
+      font-size: toRem(16);
+      line-height: toRem(19);
+      letter-spacing: toRem(2.7);
+    }
+
     &.bold {
       display: none;
+      font-weight: 700;
+
+      @media screen and (min-width: $xl-sp) {
+        display: inline-block;
+        margin-right: toRem(12);
+      }
     }
   }
 }
 
-.active-nav__identifier-track {
-  width: 100%;
-  overflow: hidden;
+.line {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: toRem(800);
+  width: toRem(473);
+  height: toRem(1);
+  background: #ffffff;
+  mix-blend-mode: normal;
+  opacity: 0.25;
 
-  .active-nav__identifier {
-    width: 0;
-    height: toRem(3);
-    background-color: var(--main-color);
-    transition: all 0.2s ease-out;
+  @media screen and (min-width: $xl-sp) {
+    display: inline-block;
   }
 }
+
+// .active-nav__identifier-track {
+//   width: 100%;
+//   overflow: hidden;
+
+//   .active-nav__identifier {
+//     width: 0;
+//     height: toRem(3);
+//     background-color: var(--main-color);
+//     transition: all 0.2s ease-out;
+//   }
+// }

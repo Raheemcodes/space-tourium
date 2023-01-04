@@ -6,7 +6,6 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -16,11 +15,18 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit, AfterViewInit {
   @ViewChild('activeIdentifier') activeIdentifier!: ElementRef<HTMLElement>;
   @ViewChild('desktopNavList') desktopNavList!: ElementRef<HTMLElement>;
-  load: boolean = false;
+  @ViewChild('toggleBtn') toggleBtn!: ElementRef<HTMLElement>;
+  @ViewChild('mobilenav') nav!: ElementRef<HTMLElement>;
 
-  constructor(private router: Router, private renderer: Renderer2) {}
+  open: boolean = false;
 
-  ngOnInit(): void {}
+  constructor(private renderer: Renderer2) {}
+
+  ngOnInit(): void {
+    window.addEventListener('resize', () => {
+      if (this.open && innerWidth >= 768) this.toggleNav();
+    });
+  }
 
   ngAfterViewInit(): void {}
 
@@ -59,5 +65,20 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         `translateX(${this.translateBy()}px)`
       );
     }, 50);
+  }
+
+  toggleNav() {
+    const nav = document.querySelector('app-mobile-nav')!;
+    const toggleBtn = this.toggleBtn.nativeElement;
+
+    if (!this.open) {
+      this.renderer.addClass(nav, 'opened');
+      this.renderer.addClass(toggleBtn, 'opened');
+      this.open = true;
+    } else {
+      this.renderer.removeClass(nav, 'opened');
+      this.renderer.removeClass(toggleBtn, 'opened');
+      this.open = false;
+    }
   }
 }
