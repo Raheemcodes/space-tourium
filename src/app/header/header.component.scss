@@ -1,3 +1,135 @@
+@import "../shared/shared";
+
 .main-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
   width: 100%;
+  @include between-centered();
+}
+
+.logo {
+  width: toRem(40);
+  height: toRem(40);
+  margin: toRem(24);
+
+  @media screen and (min-width: $md) {
+    width: toRem(48);
+    height: toRem(48);
+    margin: toRem(24) toRem(39);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.toggle-btn {
+  @include column-between-centered();
+  position: relative;
+  background-color: #0000;
+  border: none;
+  width: toRem(32);
+  height: toRem(29);
+  padding: toRem(4);
+  margin: auto toRem(24);
+
+  @media screen and (min-width: $md) {
+    display: none;
+  }
+
+  .toggle-line {
+    width: toRem(24);
+    height: toRem(3);
+    background-color: var(--main-blue);
+    transition: all 0.3s ease-out;
+  }
+
+  &.opened {
+    @include centered();
+
+    .middle {
+      display: none;
+    }
+
+    .up {
+      position: absolute;
+      transform: rotate(-45deg);
+    }
+
+    .down {
+      position: absolute;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+.desktop-nav {
+  display: none;
+  padding: 0 toRem(48);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(toRem(40.7742));
+
+  @media screen and (min-width: $md) {
+    display: block;
+  }
+}
+
+.desktop-nav__list {
+  margin: toRem(40) 0 0;
+  list-style: none;
+  @include display-flex();
+  gap: toRem(32);
+
+  .desktop-nav__list-item {
+    padding: toRem(8) toRem(8) toRem(36);
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+    border-bottom: toRem(3) solid #0000;
+
+    &:hover {
+      opacity: 0.5;
+      border-bottom: toRem(3) solid var(--main-color);
+
+      span {
+        color: var(--main-blue);
+      }
+    }
+
+    &.active {
+      border-bottom: toRem(3) solid var(--main-color);
+
+      span {
+        color: var(--main-color);
+      }
+    }
+  }
+
+  span {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 400;
+    font-size: toRem(14);
+    line-height: toRem(17);
+    letter-spacing: toRem(2.3625);
+    color: var(--main-color);
+
+    &.bold {
+      display: none;
+    }
+  }
+}
+
+.active-nav__identifier-track {
+  width: 100%;
+  overflow: hidden;
+
+  .active-nav__identifier {
+    width: 0;
+    height: toRem(3);
+    background-color: var(--main-color);
+    transition: all 0.2s ease-out;
+  }
 }

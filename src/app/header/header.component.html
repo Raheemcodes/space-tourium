@@ -1,24 +1,60 @@
 <div class="main-header">
-  <div class="logo"></div>
+  <div class="logo">
+    <img
+      width="48"
+      height="48"
+      ngSrc="../../assets/icon/logo.svg"
+      alt
+      priority
+    />
+  </div>
 
   <nav class="desktop-nav">
-    <ul class="desktop-nav__list">
-      <li class="desktop-nav__list-item">
+    <ul class="desktop-nav__list" #desktopNavList>
+      <li
+        class="desktop-nav__list-item"
+        routerLink="."
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <span class="bold">00</span><span>HOME</span>
       </li>
-      <li class="desktop-nav__list-item">
+      <li
+        class="desktop-nav__list-item"
+        routerLink="/destination"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <span class="bold">01</span><span>DESTINATION</span>
       </li>
-      <li class="desktop-nav__list-item">
+      <li
+        class="desktop-nav__list-item"
+        routerLink="/crew"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <span class="bold">02</span><span>CREW</span>
       </li>
-      <li class="desktop-nav__list-item">
+      <li
+        class="desktop-nav__list-item"
+        routerLink="/tech"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <span class="bold">03</span><span>TECHNOLOGY</span>
       </li>
     </ul>
+    <!--
+    <div class="active-nav__identifier-track">
+      <div class="active-nav__identifier" #activeIdentifier></div>
+    </div> -->
   </nav>
 
-  <div class="toggle-btn"></div>
+  <button class="toggle-btn">
+    <div class="toggle-line up"></div>
+    <div class="toggle-line middle"></div>
+    <div class="toggle-line down"></div>
+  </button>
 </div>
 
 <app-mobile-nav></app-mobile-nav>

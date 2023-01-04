@@ -9,6 +9,7 @@ import { CrewComponent } from './crew/crew.component';
 import { TechComponent } from './tech/tech.component';
 import { HeaderComponent } from './header/header.component';
 import { MobileNavComponent } from './header/mobile-nav/mobile-nav.component';
+import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { MobileNavComponent } from './header/mobile-nav/mobile-nav.component';
     HeaderComponent,
     MobileNavComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, NgOptimizedImage],
   providers: [],
   bootstrap: [AppComponent],
 })

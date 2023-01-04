@@ -1,6 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./app/shared/shared";
 
+@font-face {
+  font-family: "Bellefair";
+  src: local(Bellefair-Regular),
+    url(./assets/font/Bellefair/Bellefair-Regular.ttf) format("truetype");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: local(Barlow-Regular),
+    url(./assets/font/Barlow/Barlow-Regular.ttf) format("truetype");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  src: local(BarlowCondensed-Regular),
+    url(./assets/font/Barlow_Condensed/BarlowCondensed-Regular.ttf)
+      format("truetype");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -17,7 +45,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-  font-size: toRem(18);
   background-color: var(--main-black);
+  font-family: "Barlow", sans-serif;
   color: var(--main-color);
 }

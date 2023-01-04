@@ -1,0 +1,31 @@
+@import "../../shared/shared";
+
+:host {
+  position: fixed;
+  background-color: var(--main-black);
+  width: calc(254 / 357) * 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  padding: toRem(88) 0;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(40.7742px);
+
+  @media screen and (min-width: $md) {
+    display: none;
+  }
+}
+
+.mobile-nav__list {
+  list-style: none;
+  padding: toRem(8) 0;
+  @include column-flex();
+}
+
+.mobile-nav__list-item {
+  @include display-flex();
+  gap: toRem(12);
+  padding: toRem(16) toRem(32);
+}
