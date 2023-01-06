@@ -1,5 +1,5 @@
-import { HomeComponent } from './../home/home.component';
-import { CrewComponent } from './../crew/crew.component';
+import { TechComponent } from './../tech/tech.component';
+import { DestinationComponent } from './../destination/destination.component';
 import { DebugElement, ElementRef } from '@angular/core';
 import {
   ComponentFixture,
@@ -8,15 +8,19 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Router, Routes, Scroll } from '@angular/router';
+import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CrewComponent } from './../crew/crew.component';
+import { HomeComponent } from './../home/home.component';
 import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
 
 import { HeaderComponent } from './header.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'destination', component: DestinationComponent },
   { path: 'crew', component: CrewComponent },
+  { path: 'tech', component: TechComponent },
 ];
 
 describe('HeaderComponent', () => {
@@ -54,78 +58,52 @@ describe('HeaderComponent', () => {
     expect(desktopNav.children.length).toBe(4);
   });
 
-  describe('Desktop active nav identifier', () => {
-    it('should have desktop active nav identifier', () => {
-      const activeIndentifier: ElementRef<HTMLElement> = de.query(
-        By.css('.active-nav__identifier')
-      );
-      expect(activeIndentifier).toBeTruthy();
-    });
+  it('should have element of class active that contain Home after navigating to /', fakeAsync(() => {
+    TestBed.inject(Router).navigate(['/']);
+    tick();
 
-    it('should have width of active navigation element button', fakeAsync(() => {
-      TestBed.inject(Router).navigate(['/']);
-      tick();
+    const navElBtn: ElementRef<HTMLElement> = de.query(
+      By.css('.desktop-nav__list-item.active')
+    );
 
-      const navElBtn: ElementRef<HTMLElement> = de.query(
-        By.css('.desktop-nav__list-item.active')
-      );
-      const activeIndentifier: ElementRef<HTMLElement> = de.query(
-        By.css('.active-nav__identifier')
-      );
+    expect(navElBtn.nativeElement.innerText).toContain('HOME');
+  }));
 
-      expect(activeIndentifier.nativeElement.clientWidth).toBe(
-        navElBtn.nativeElement.clientWidth
-      );
-    }));
+  it('should have element of class active that contain destination after navigating to /destination', fakeAsync(() => {
+    TestBed.inject(Router).navigate(['/destination']);
+    tick();
 
-    it('should translate to under the active nav element button', fakeAsync(() => {
-      const activeIndentifier: ElementRef<HTMLElement> = de.query(
-        By.css('.active-nav__identifier')
-      );
-      const desktopNavList: HTMLElement = de.query(
-        By.css('.desktop-nav__list')
-      ).nativeElement;
+    const navElBtn: ElementRef<HTMLElement> = de.query(
+      By.css('.desktop-nav__list-item.active')
+    );
 
-      const router = TestBed.inject(Router);
-      router.navigate(['/crew']);
-      tick();
+    expect(navElBtn.nativeElement.innerText).toContain('DESTINATION');
+  }));
 
-      let translateBy: number = 0;
+  it('should have element of class active that contain crew after navigating to /crew', fakeAsync(() => {
+    TestBed.inject(Router).navigate(['/crew']);
+    tick();
 
-      // for (let i = 0; i < desktopNavList.children.length; i++) {
-      //   if (desktopNavList.children[i].classList.contains('active')) break;
-      //   translateBy += desktopNavList.children[i].clientWidth + 32;
-      // }
+    const navElBtn: ElementRef<HTMLElement> = de.query(
+      By.css('.desktop-nav__list-item.active')
+    );
 
-      // console.log(translateBy);
-      expect(activeIndentifier.nativeElement.style.transform).toBe(
-        `translateX(${component.translateBy()}px)`
-      );
-    }));
+    expect(navElBtn.nativeElement.innerText).toContain('CREW');
+  }));
 
-    // it('should call onActiveChangeFn', fakeAsync(() => {
-    //   const assert = spyOn(component, 'onActiveChange');
-    //   TestBed.inject(Router).navigate(['/']);
-    //   tick();
+  it('should have element of class active that contain technology after navigating to /tech', fakeAsync(() => {
+    TestBed.inject(Router).navigate(['/tech']);
+    tick();
 
-    //   expect(assert).toHaveBeenCalled();
-    // }));
-  });
+    const navElBtn: ElementRef<HTMLElement> = de.query(
+      By.css('.desktop-nav__list-item.active')
+    );
 
-  describe('Toggle Button', () => {
-    it('should have toggle button', () => {
-      expect(de.query(By.css('.toggle-btn'))).toBeTruthy();
-    });
+    expect(navElBtn.nativeElement.innerText).toContain('TECHNOLOGY');
+  }));
 
-    // it('should toggle', () => {});
-  });
-
-  it('should have mobileNavComponent', () => {
-    expect(de.query(By.css('app-mobile-nav'))).toBeTruthy();
-  });
-
-  it('should have mobile nav list of four children', () => {
-    const mobileNav = de.query(By.css('.mobile-nav__list'));
+  it('should have mobile nav component', () => {
+    const mobileNav = de.query(By.css('app-mobile-nav'));
 
     expect(mobileNav).toBeTruthy();
   });

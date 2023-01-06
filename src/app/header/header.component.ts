@@ -1,3 +1,4 @@
+import { NavigationEnd, Router } from '@angular/router';
 import {
   AfterViewInit,
   Component,
@@ -5,7 +6,9 @@ import {
   OnInit,
   Renderer2,
   ViewChild,
+  Inject,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -20,9 +23,18 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   open: boolean = false;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private router: Router,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd && this.open) {
+        setTimeout(this.toggleNav.bind(this), 200);
+      }
+    });
     window.addEventListener('resize', () => {
       if (this.open && innerWidth >= 768) this.toggleNav();
     });
@@ -30,54 +42,21 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {}
 
-  translateBy(): number {
-    const desktopNavList = this.desktopNavList.nativeElement;
-    let translateBy: number = 0;
-    const gap: number = 32;
-
-    for (let i = 0; i < desktopNavList.children.length; i++) {
-      if (desktopNavList.children[i].classList.contains('active')) break;
-
-      translateBy += desktopNavList.children[i].clientWidth + gap;
-    }
-
-    return translateBy;
-  }
-
-  onActiveChange() {
-    setTimeout(() => {
-      const activeElement: HTMLLIElement =
-        this.desktopNavList.nativeElement.querySelector(
-          '.desktop-nav__list-item.active'
-        )!;
-      const activeIdentifier = this.activeIdentifier.nativeElement;
-
-      console.log(activeElement.clientWidth);
-
-      this.renderer.setStyle(
-        activeIdentifier,
-        'width',
-        `${activeElement.clientWidth}px`
-      );
-      this.renderer.setStyle(
-        activeIdentifier,
-        'transform',
-        `translateX(${this.translateBy()}px)`
-      );
-    }, 50);
-  }
-
   toggleNav() {
     const nav = document.querySelector('app-mobile-nav')!;
     const toggleBtn = this.toggleBtn.nativeElement;
+    const body = this.document.body;
 
     if (!this.open) {
       this.renderer.addClass(nav, 'opened');
       this.renderer.addClass(toggleBtn, 'opened');
+      this.renderer.addClass(toggleBtn, 'opened');
+      this.renderer.addClass(body, 'noscroll');
       this.open = true;
     } else {
       this.renderer.removeClass(nav, 'opened');
       this.renderer.removeClass(toggleBtn, 'opened');
+      this.renderer.removeClass(body, 'noscroll');
       this.open = false;
     }
   }

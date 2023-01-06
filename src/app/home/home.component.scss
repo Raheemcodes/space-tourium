@@ -2,33 +2,48 @@
 
 main {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-image: url(../../assets/background/background-home-mobile.jpg);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  padding: toRem(88) toRem(24) 0;
+  padding: toRem(88) toRem(24) toRem(24);
 
   @media screen and (min-width: $md) {
-    padding: toRem(99) toRem(24) 0;
+    padding: toRem(99) toRem(24);
     background-image: url(../../assets/background/background-home-tablet.jpg);
+  }
+
+  @media screen and (min-width: $xl-sp) {
+    padding: toRem(139) toRem(165);
+    background-image: url(../../assets/background/background-home-desktop.jpg);
   }
 }
 
-// .bg-img {
-//   overflow: hidden;
-//   width: 100%;
-//   height: 100%;
-// }
+.content {
+  @include column-centered-start();
+  width: 100%;
+  gap: toRem(81);
+  margin: toRem(112 - 88) 0 0;
+
+  @media screen and (min-width: $md) {
+    gap: toRem(156);
+    margin: toRem(106) 0 0;
+  }
+
+  @media screen and (min-width: $xl-sp) {
+    @include between();
+    align-items: flex-end;
+    margin: toRem(251) 0 0;
+  }
+}
 
 .overview {
   width: 100%;
   max-width: toRem(400);
-  margin: toRem(112 - 88) auto toRem(81);
 
   @media screen and (min-width: $md) {
     max-width: toRem(450);
-    margin: toRem(106) auto toRem(156);
   }
 
   .question {
@@ -39,6 +54,7 @@ main {
     letter-spacing: toRem(2.7);
     text-align: center;
     margin-bottom: toRem(16);
+    color: var(--main-blue);
 
     @media screen and (min-width: $md) {
       font-size: toRem(20);
@@ -46,6 +62,13 @@ main {
       line-height: toRem(24);
       letter-spacing: toRem(3.375);
       margin-bottom: toRem(24);
+      text-align: center;
+    }
+    @media screen and (min-width: $xl-sp) {
+      font-size: toRem(28);
+      line-height: toRem(34);
+      letter-spacing: toRem(4.7);
+      text-align: left;
     }
   }
 
@@ -61,8 +84,13 @@ main {
       font-size: toRem(150);
       font-weight: 400;
       line-height: toRem(150);
-      text-align: left;
+      text-align: center;
       margin-bottom: toRem(24);
+    }
+    @media screen and (min-width: $xl-sp) {
+      font-size: toRem(150);
+      line-height: toRem(172);
+      text-align: left;
     }
   }
 
@@ -72,11 +100,17 @@ main {
     font-weight: 400;
     line-height: toRem(25);
     text-align: center;
+    color: var(--main-blue);
 
     @media screen and (min-width: $md) {
       font-size: toRem(16);
       font-weight: 400;
       line-height: toRem(28);
+    }
+    @media screen and (min-width: $xl-sp) {
+      font-size: toRem(18);
+      line-height: toRem(32);
+      text-align: left;
     }
   }
 }
@@ -96,7 +130,7 @@ button {
   height: toRem(150);
   border-radius: 50%;
   border: none;
-  margin: auto;
+
   cursor: pointer;
   @include centered();
 
@@ -136,6 +170,19 @@ button {
         &::after {
           width: toRem(242 + 88);
           height: toRem(242 + 88);
+        }
+      }
+    }
+  }
+  @media screen and (min-width: $xl-sp) {
+    width: toRem(274);
+    height: toRem(274);
+
+    @media (hover: hover) {
+      &:hover {
+        &::after {
+          width: toRem(274 + 88);
+          height: toRem(274 + 88);
         }
       }
     }

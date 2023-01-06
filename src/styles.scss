@@ -50,3 +50,7 @@ body {
   font-family: "Barlow", sans-serif;
   color: var(--main-color);
 }
+
+.noscroll {
+  overflow: hidden;
+}
