@@ -5,9 +5,10 @@ main {
   min-height: 100%;
   padding: toRem(88) toRem(24) toRem(24);
   background-image: url(../../assets/background/dest/background-destination-mobile.jpg);
-  background-position: center;
+  background-position: center top;
   background-size: cover;
   background-repeat: no-repeat;
+  overflow-x: hidden;
 
   @media screen and (min-width: $md) {
     padding: toRem(99) toRem(40) toRem(62);
@@ -93,14 +94,67 @@ main {
   }
 }
 
+.celestial-container {
+  @include centered();
+  align-items: flex-end;
+  width: toRem(170);
+  height: toRem(170);
+
+  @media screen and (min-width: $md) {
+    width: toRem(300);
+    height: toRem(300);
+  }
+  @media screen and (min-width: $xl-sp) {
+    width: toRem(445);
+    height: toRem(445);
+    margin-left: toRem(230 - 165);
+  }
+}
+
 .celestial-bodies {
   list-style: none;
-  margin-left: toRem(230 - 165);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  place-items: center;
+  width: toRem(170 * 3);
+  height: toRem(170 * 3);
+  transition: all 0.3s ease-out;
+
+  @media screen and (min-width: $md) {
+    width: toRem(300 * 3);
+    height: toRem(300 * 3);
+  }
+  @media screen and (min-width: $xl-sp) {
+    width: toRem(445 * 3);
+    height: toRem(445 * 3);
+    margin-left: toRem(230 - 165);
+  }
 }
 
 .celestial-body {
   width: toRem(170);
   height: toRem(170);
+
+  &:nth-child(1) {
+    grid-row: 1;
+    grid-column: 2;
+    transform: rotateZ(-180deg);
+  }
+  &:nth-child(2) {
+    grid-row: 2;
+    grid-column: 1;
+    transform: rotateZ(-270deg);
+  }
+  &:nth-child(3) {
+    grid-row: 2;
+    grid-column: 3;
+    transform: rotateZ(-90deg);
+  }
+  &:nth-child(4) {
+    grid-row: 3;
+    grid-column: 2;
+  }
 
   @media screen and (min-width: $md) {
     width: toRem(300);

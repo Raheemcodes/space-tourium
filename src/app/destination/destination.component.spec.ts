@@ -16,7 +16,16 @@ describe('DestinationComponent', () => {
   let de: DebugElement;
 
   const routes: Routes = [
-    { path: 'destination', component: DestinationComponent },
+    {
+      path: 'destination',
+      component: DestinationComponent,
+      children: [
+        { path: '', component: DestinationComponent },
+        { path: 'mars', component: DestinationComponent },
+        { path: 'europa', component: DestinationComponent },
+        { path: 'titan', component: DestinationComponent },
+      ],
+    },
   ];
 
   beforeEach(async () => {
@@ -55,6 +64,7 @@ describe('DestinationComponent', () => {
     const title = de.query(By.css('.content-title')).nativeElement.textContent;
     const router: Router = TestBed.inject(Router);
 
+    tick();
     expect(title).withContext('initial').toBe('MOON');
 
     router.navigate(['/destination/mars']);
@@ -82,7 +92,7 @@ describe('DestinationComponent', () => {
   }));
 
   it('should have element of class active that contain destination after navigating to /mars', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/mars']);
+    TestBed.inject(Router).navigate(['/destination/mars']);
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -93,7 +103,7 @@ describe('DestinationComponent', () => {
   }));
 
   it('should have element of class active that contain crew after navigating to /europa', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/europa']);
+    TestBed.inject(Router).navigate(['/destination/europa']);
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -104,7 +114,7 @@ describe('DestinationComponent', () => {
   }));
 
   it('should have element of class active that contain technology after navigating to /titan', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/titan']);
+    TestBed.inject(Router).navigate(['/destination/titan']);
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -129,12 +139,12 @@ describe('DestinationComponent', () => {
     expect(prevVal).not.toBe(curVal);
   }));
 
-  it('should change est time travel on route change', () => {
+  it('should change est time travel on route change', fakeAsync(() => {
     const prevVal = de.query(By.css('.unit.time')).nativeElement.innerText;
     TestBed.inject(Router).navigate(['/destination/mars']);
     tick();
     const curVal = de.query(By.css('.unit.time')).nativeElement.innerText;
 
     expect(prevVal).not.toBe(curVal);
-  });
+  }));
 });

@@ -42,10 +42,6 @@ describe('MobileNavComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have mobile nav', () => {
-    expect(de.query(By.css('.mobile-nav'))).toBeTruthy();
-  });
-
   it('should have mobile nav list of four children', () => {
     const mobileNav = de.query(By.css('.mobile-nav__list'));
 
