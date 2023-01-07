@@ -26,6 +26,7 @@
 }
 
 .mobile-nav__list {
+  width: 100%;
   list-style: none;
   padding: toRem(8) 0;
   @include column-flex();
@@ -33,6 +34,7 @@
 
 .mobile-nav__list-item {
   @include display-flex();
+  width: 100%;
   gap: toRem(12);
   padding: toRem(16) toRem(32);
   border-right: toRem(3) solid #0000;

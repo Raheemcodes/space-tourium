@@ -1,8 +1,6 @@
 @import "../shared/shared";
 
 main {
-  @include column-centered-start();
-  gap: toRem(26);
   width: 100%;
   min-height: 100%;
   padding: toRem(88) toRem(24) toRem(24);
@@ -12,13 +10,28 @@ main {
   background-repeat: no-repeat;
 
   @media screen and (min-width: $md) {
-    padding: toRem(99) toRem(40);
+    padding: toRem(99) toRem(40) toRem(62);
     background-image: url(../../assets/background/dest/background-destination-tablet.jpg);
   }
 
   @media screen and (min-width: $xl-sp) {
-    padding: toRem(139) toRem(165);
+    padding: toRem(139 + 76) toRem(165) toRem(118);
     background-image: url(../../assets/background/dest/background-destination-desktop.jpg);
+  }
+}
+
+.dest {
+  @include column-centered-start();
+  gap: toRem(26);
+  width: 100%;
+
+  @media screen and (min-width: $md) {
+    gap: toRem(53);
+  }
+
+  @media screen and (min-width: $xl-sp) {
+    @include between();
+    gap: toRem(157);
   }
 }
 
@@ -26,10 +39,17 @@ main {
   @include column-centered();
   gap: toRem(32);
   width: 100%;
+  flex-grow: 0;
 
   @media screen and (min-width: $md) {
     gap: toRem(60);
     margin-top: toRem(40);
+  }
+  @media screen and (min-width: $xl-sp) {
+    width: auto;
+    margin-top: 0;
+    @include column-flex();
+    gap: toRem(97);
   }
 
   .title {
@@ -52,17 +72,30 @@ main {
       line-height: toRem(24);
       letter-spacing: toRem(3.375);
     }
+    @media screen and (min-width: $xl-sp) {
+      font-size: toRem(28);
+      line-height: toRem(34);
+      letter-spacing: toRem(4.7);
+    }
 
     &.num {
       opacity: 0.25;
       font-weight: 700;
       margin-right: toRem(16);
+
+      @media screen and (min-width: $md) {
+        margin-right: toRem(18);
+      }
+      @media screen and (min-width: $xl-sp) {
+        margin-right: toRem(28);
+      }
     }
   }
 }
 
 .celestial-bodies {
   list-style: none;
+  margin-left: toRem(230 - 165);
 }
 
 .celestial-body {
@@ -73,7 +106,10 @@ main {
     width: toRem(300);
     height: toRem(300);
   }
-  // pause
+  @media screen and (min-width: $xl-sp) {
+    width: toRem(445);
+    height: toRem(445);
+  }
 
   img {
     width: 100%;
@@ -86,6 +122,15 @@ main {
   @include centered-start();
   gap: toRem(26);
   margin-bottom: toRem(20);
+
+  @media screen and (min-width: $md) {
+    gap: toRem(36);
+    margin-bottom: toRem(32);
+  }
+  @media screen and (min-width: $xl-sp) {
+    @include display-flex();
+    margin-bottom: toRem(36);
+  }
 }
 
 .nav-list__item {
@@ -99,10 +144,15 @@ main {
   border-bottom: toRem(3) solid #0000;
   cursor: pointer;
 
+  @media screen and (min-width: $md) {
+    font-size: toRem(16);
+    line-height: toRem(19);
+    letter-spacing: toRem(2.7);
+  }
   @media (hover: hover) {
     &:hover {
       border-bottom: toRem(3) solid var(--main-color);
-      // mix-blend-mode: normal;
+      mix-blend-mode: normal;
       opacity: 0.5;
     }
   }
@@ -117,6 +167,18 @@ main {
 .main-content {
   width: 100%;
   @include column-centered-start();
+  max-width: toRem(400);
+
+  @media screen and (min-width: $md) {
+    max-width: toRem(573);
+  }
+
+  @media screen and (min-width: $xl-sp) {
+    width: auto;
+    @include column-flex();
+    align-self: flex-end;
+    max-width: toRem(445);
+  }
 }
 
 .content-title {
@@ -126,6 +188,18 @@ main {
   line-height: toRem(64);
   text-align: center;
   margin-bottom: toRem(1);
+
+  @media screen and (min-width: $md) {
+    font-size: toRem(80);
+    line-height: toRem(92);
+    margin-bottom: toRem(9);
+  }
+  @media screen and (min-width: $xl-sp) {
+    font-size: toRem(100);
+    line-height: toRem(115);
+    text-align: left;
+    margin-bottom: toRem(14);
+  }
 }
 
 .content-text {
@@ -133,7 +207,16 @@ main {
   font-weight: 400;
   line-height: toRem(25);
   text-align: center;
-  max-width: toRem(400);
+
+  @media screen and (min-width: $md) {
+    font-size: toRem(16);
+    line-height: toRem(28);
+  }
+  @media screen and (min-width: $xl-sp) {
+    font-size: toRem(18);
+    line-height: toRem(32);
+    text-align: left;
+  }
 }
 
 .line {
@@ -141,20 +224,36 @@ main {
   height: toRem(1);
   background: #383b4b;
   margin: toRem(32) 0;
+
+  @media screen and (min-width: $md) {
+    margin: toRem(48) 0 toRem(28);
+  }
+  @media screen and (min-width: $xl-sp) {
+    margin: toRem(54) 0 toRem(28);
+  }
 }
 
 .units {
   @include centered();
   flex-wrap: wrap;
   width: 100%;
-  gap: toRem(32);
+  gap: toRem(32) toRem(12);
+
+  @media screen and (min-width: $xl-sp) {
+    gap: toRem(79);
+    justify-content: flex-start;
+  }
 }
 
 .unit-container {
   @include column-centered();
   gap: toRem(12);
-  flex-wrap: nowrap;
   min-width: toRem(216);
+
+  @media screen and (min-width: $xl-sp) {
+    align-items: flex-start;
+    min-width: auto;
+  }
 }
 
 .unit-title {
