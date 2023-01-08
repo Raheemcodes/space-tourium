@@ -60,6 +60,33 @@ describe('DestinationComponent', () => {
     expect(celestial.length).toBe(4);
   });
 
+  it('should change celestial container style rotation based on route', fakeAsync(() => {
+    const transform: string = de.query(By.css('.celestial-container'))
+      .nativeElement.style['transform'];
+    const router: Router = TestBed.inject(Router);
+
+    tick();
+    expect(transform).withContext('initial').toBe('');
+
+    router.navigate(['/destination/mars']);
+    tick();
+    expect(transform)
+      .withContext('navigated to MARS')
+      .toBe('transform: rotateZ(90deg)');
+
+    router.navigate(['/destination/europa']);
+    tick();
+    expect(transform)
+      .withContext('navigated to EUROPA')
+      .toBe('transform: rotateZ(180deg)');
+
+    router.navigate(['/destination/titan']);
+    tick();
+    expect(transform)
+      .withContext('navigated to TITAN')
+      .toBe('transform: rotateZ(270deg)');
+  }));
+
   it('should have content title that changes based on route', fakeAsync(() => {
     const title = de.query(By.css('.content-title')).nativeElement.textContent;
     const router: Router = TestBed.inject(Router);
@@ -67,21 +94,21 @@ describe('DestinationComponent', () => {
     tick();
     expect(title).withContext('initial').toBe('MOON');
 
-    router.navigate(['/destination/mars']);
+    router.navigate(['destination', 'mars']);
     tick();
     expect(title).withContext('navigated to MARS').toBe('MARS');
 
-    router.navigate(['/destination/europa']);
+    router.navigate(['destination', 'europa']);
     tick();
     expect(title).withContext('navigated to EUROPA').toBe('EUROPA');
 
-    router.navigate(['/destination/titan']);
+    router.navigate(['destination', 'titan']);
     tick();
     expect(title).withContext('navigated to TITAN').toBe('TITAN');
   }));
 
   it('should have element of class active that contain Home after navigating to /', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/']);
+    TestBed.inject(Router).navigate(['destination']);
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -91,8 +118,8 @@ describe('DestinationComponent', () => {
     expect(navElBtn.nativeElement.innerText).toContain('MOON');
   }));
 
-  it('should have element of class active that contain destination after navigating to /mars', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/destination/mars']);
+  it('should have element of class active that contain Home after navigating to /mars', fakeAsync(() => {
+    TestBed.inject(Router).navigate(['destination', 'mars']);
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -103,7 +130,8 @@ describe('DestinationComponent', () => {
   }));
 
   it('should have element of class active that contain crew after navigating to /europa', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/destination/europa']);
+    TestBed.inject(Router).navigate(['destination', 'europa']);
+    fixture.detectChanges();
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(

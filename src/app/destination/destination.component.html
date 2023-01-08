@@ -12,16 +12,7 @@
             <img
               width="445"
               height="445"
-              ngSrc="./../../assets/background/dest/image-europa.webp"
-              alt
-              priority
-            />
-          </li>
-          <li class="celestial-body">
-            <img
-              width="445"
-              height="445"
-              ngSrc="./../../assets/background/dest/image-titan.webp"
+              ngSrc="./../../assets/background/dest/image-moon.webp"
               alt
               priority
             />
@@ -39,7 +30,16 @@
             <img
               width="445"
               height="445"
-              ngSrc="./../../assets/background/dest/image-moon.webp"
+              ngSrc="./../../assets/background/dest/image-europa.webp"
+              alt
+              priority
+            />
+          </li>
+          <li class="celestial-body">
+            <img
+              width="445"
+              height="445"
+              ngSrc="./../../assets/background/dest/image-titan.webp"
               alt
               priority
             />
@@ -50,10 +50,38 @@
 
     <div class="main-content">
       <ul class="nav-list">
-        <li class="nav-list__item active">MOON</li>
-        <li class="nav-list__item">MARS</li>
-        <li class="nav-list__item">EUROPA</li>
-        <li class="nav-list__item">TITAN</li>
+        <li
+          class="nav-list__item"
+          routerLink="/destination"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          MOON
+        </li>
+        <li
+          class="nav-list__item"
+          routerLink="mars"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          MARS
+        </li>
+        <li
+          class="nav-list__item"
+          routerLink="europa"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          EUROPA
+        </li>
+        <li
+          class="nav-list__item"
+          routerLink="titan"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          TITAN
+        </li>
       </ul>
 
       <h2 class="content-title">MOON</h2>
