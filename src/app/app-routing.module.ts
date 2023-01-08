@@ -8,17 +8,12 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {
-    path: 'destination',
+    path: 'destination/:id',
     component: DestinationComponent,
-    children: [
-      { path: '', component: DestinationComponent },
-      { path: 'mars', component: DestinationComponent },
-      { path: 'europa', component: DestinationComponent },
-      { path: 'titan', component: DestinationComponent },
-    ],
   },
   { path: 'crew', component: CrewComponent },
   { path: 'tech', component: TechComponent },
+  { path: 'destination', redirectTo: '/destination/moon' },
   { path: '**', redirectTo: '/' },
 ];
 

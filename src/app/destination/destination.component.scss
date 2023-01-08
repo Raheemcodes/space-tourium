@@ -8,7 +8,6 @@ main {
   background-position: center top;
   background-size: cover;
   background-repeat: no-repeat;
-  overflow-x: hidden;
 
   @media screen and (min-width: $md) {
     padding: toRem(99) toRem(40) toRem(62);
@@ -135,6 +134,7 @@ main {
 .celestial-body {
   width: toRem(170);
   height: toRem(170);
+
   opacity: 0;
   transition: all 0.3s ease-out;
 
@@ -142,21 +142,22 @@ main {
     grid-row: 3;
     grid-column: 2;
     opacity: 1;
+    transform: scale(1) rotateZ(0deg);
   }
   &:nth-child(2) {
     grid-row: 2;
     grid-column: 3;
-    transform: rotateZ(-90deg);
+    transform: scale(0.3) rotateZ(-90deg);
   }
   &:nth-child(3) {
     grid-row: 1;
     grid-column: 2;
-    transform: rotateZ(-180deg);
+    transform: scale(0.3) rotateZ(-180deg);
   }
   &:nth-child(4) {
     grid-row: 2;
     grid-column: 1;
-    transform: rotateZ(-270deg);
+    transform: scale(0.3) rotateZ(-270deg);
   }
 
   @media screen and (min-width: $md) {
@@ -225,6 +226,8 @@ main {
   width: 100%;
   @include column-centered-start();
   max-width: toRem(400);
+  position: relative;
+  z-index: 1;
 
   @media screen and (min-width: $md) {
     max-width: toRem(573);

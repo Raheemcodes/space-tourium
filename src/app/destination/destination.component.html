@@ -7,8 +7,17 @@
       </div>
 
       <div class="celestial-container">
-        <ul class="celestial-bodies">
-          <li class="celestial-body">
+        <ul
+          class="celestial-bodies"
+          attr.style="transform: rotateZ({{ deg }}deg)"
+        >
+          <li
+            class="celestial-body"
+            [style.transform]="
+              deg == 0 ? 'scale(1) rotateZ(0deg)' : 'scale(0.3) rotateZ(0deg)'
+            "
+            [style.opacity]="deg == 0 ? '1' : '0'"
+          >
             <img
               width="445"
               height="445"
@@ -17,7 +26,15 @@
               priority
             />
           </li>
-          <li class="celestial-body">
+          <li
+            class="celestial-body"
+            [style.transform]="
+              deg == 90
+                ? 'scale(1) rotateZ(-90deg)'
+                : 'scale(0.3) rotateZ(-90deg)'
+            "
+            [style.opacity]="deg == 90 ? '1' : '0'"
+          >
             <img
               width="445"
               height="445"
@@ -26,7 +43,15 @@
               priority
             />
           </li>
-          <li class="celestial-body">
+          <li
+            class="celestial-body"
+            [style.transform]="
+              deg == 180
+                ? 'scale(1) rotateZ(-180deg)'
+                : 'scale(0.3) rotateZ(-180deg)'
+            "
+            [style.opacity]="deg == 180 ? '1' : '0'"
+          >
             <img
               width="445"
               height="445"
@@ -35,7 +60,15 @@
               priority
             />
           </li>
-          <li class="celestial-body">
+          <li
+            class="celestial-body"
+            [style.transform]="
+              deg == 270
+                ? 'scale(1) rotateZ(-270deg)'
+                : 'scale(0.3) rotateZ(-270deg)'
+            "
+            [style.opacity]="deg == 270 ? '1' : '0'"
+          >
             <img
               width="445"
               height="445"
@@ -52,7 +85,7 @@
       <ul class="nav-list">
         <li
           class="nav-list__item"
-          routerLink="/destination"
+          routerLink="/destination/moon"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
@@ -60,7 +93,7 @@
         </li>
         <li
           class="nav-list__item"
-          routerLink="mars"
+          routerLink="/destination/mars"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
@@ -68,7 +101,7 @@
         </li>
         <li
           class="nav-list__item"
-          routerLink="europa"
+          routerLink="/destination/europa"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
@@ -76,7 +109,7 @@
         </li>
         <li
           class="nav-list__item"
-          routerLink="titan"
+          routerLink="/destination/titan"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
