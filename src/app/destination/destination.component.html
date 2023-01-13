@@ -1,4 +1,4 @@
-<main>
+<main #main>
   <div class="dest">
     <div class="overview">
       <div class="title">
@@ -14,9 +14,9 @@
           <li
             class="celestial-body"
             [style.transform]="
-              deg == 0 ? 'scale(1) rotateZ(0deg)' : 'scale(0.3) rotateZ(0deg)'
+              deg == '0' ? 'scale(1) rotateZ(0deg)' : 'scale(0.3) rotateZ(0deg)'
             "
-            [style.opacity]="deg == 0 ? '1' : '0'"
+            [style.opacity]="deg == '0' ? '1' : '0'"
           >
             <img
               width="445"
@@ -29,11 +29,11 @@
           <li
             class="celestial-body"
             [style.transform]="
-              deg == 90
+              deg == '90'
                 ? 'scale(1) rotateZ(-90deg)'
                 : 'scale(0.3) rotateZ(-90deg)'
             "
-            [style.opacity]="deg == 90 ? '1' : '0'"
+            [style.opacity]="deg == '90' ? '1' : '0'"
           >
             <img
               width="445"
@@ -46,11 +46,11 @@
           <li
             class="celestial-body"
             [style.transform]="
-              deg == 180
+              deg == '180'
                 ? 'scale(1) rotateZ(-180deg)'
                 : 'scale(0.3) rotateZ(-180deg)'
             "
-            [style.opacity]="deg == 180 ? '1' : '0'"
+            [style.opacity]="deg == '180' ? '1' : '0'"
           >
             <img
               width="445"
@@ -63,11 +63,11 @@
           <li
             class="celestial-body"
             [style.transform]="
-              deg == 270
+              deg == '270'
                 ? 'scale(1) rotateZ(-270deg)'
                 : 'scale(0.3) rotateZ(-270deg)'
             "
-            [style.opacity]="deg == 270 ? '1' : '0'"
+            [style.opacity]="deg == '270' ? '1' : '0'"
           >
             <img
               width="445"
@@ -117,13 +117,12 @@
         </li>
       </ul>
 
-      <h2 class="content-title">MOON</h2>
+      <h2 class="content-title">
+        <span *ngFor="let letter of name">{{ letter }}</span>
+      </h2>
 
       <p class="content-text">
-        See our planet as you’ve never seen it before. A perfect relaxing trip
-        away to help regain perspective and come back refreshed. While you’re
-        there, take in some history by visiting the Luna 2 and Apollo 11 landing
-        sites.
+        <span *ngFor="let letter of about">{{ letter }}</span>
       </p>
 
       <div class="line"></div>
@@ -131,12 +130,16 @@
       <div class="units">
         <div class="unit-container">
           <div class="unit-title">AVG. DISTANCE</div>
-          <div class="unit distance">384,400 km</div>
+          <div class="unit distance">
+            <span *ngFor="let letter of distance">{{ letter }}</span>
+          </div>
         </div>
 
         <div class="unit-container">
           <div class="unit-title">Est. travel time</div>
-          <div class="unit time">3 days</div>
+          <div class="unit time">
+            <span *ngFor="let letter of time">{{ letter }}</span>
+          </div>
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
 export interface Celestial {
   name: string;
   about: string;
-  distance: number;
-  time: number;
-  deg: number;
+  distance: string;
+  time: string;
+  deg: string;
 }
 
 export interface CelestialList {
@@ -12,3 +12,9 @@ export interface CelestialList {
   europa: Celestial;
   titan: Celestial;
 }
+
+export type CelestialListKey = 'moon' | 'mars' | 'europa' | 'titan';
+
+export type CelestialKey = 'name' | 'about' | 'distance' | 'time' | 'deg';
+
+export type LoopableKey = 'name' | 'about' | 'distance' | 'time';
