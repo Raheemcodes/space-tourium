@@ -20,15 +20,15 @@ import {
   templateUrl: './destination.component.html',
   styleUrls: ['./destination.component.scss'],
 })
-export class DestinationComponent implements OnInit, OnDestroy {
+export class DestinationComponent implements OnInit {
   @ViewChild('main') main!: ElementRef<HTMLElement>;
   celestialList: CelestialList = {
     moon: {
       name: 'MOON',
       about:
         'See our planet as you’ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you’re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites.',
-      distance: '225 MIL. km',
-      time: '9 months',
+      distance: '384,400 km',
+      time: '3 days',
       deg: '0',
     },
     mars: {
@@ -58,7 +58,7 @@ export class DestinationComponent implements OnInit, OnDestroy {
   };
 
   name: string[] = this.celestialFn('name').split('');
-  about: string[] = this.celestialFn('about').split('');
+  about: string = this.celestialFn('about');
   distance: string[] = this.celestialFn('distance').split('');
   time: string[] = this.celestialFn('time').split('');
   deg: string = this.celestialFn('deg');
@@ -66,6 +66,21 @@ export class DestinationComponent implements OnInit, OnDestroy {
   w: string[] = [
     '',
     ' ',
+    '!',
+    ')',
+    '(',
+    ',',
+    '.',
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
     'A',
     'B',
     'C',
@@ -118,23 +133,12 @@ export class DestinationComponent implements OnInit, OnDestroy {
     'x',
     'y',
     'z',
-    '0',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '.',
-    ',',
-    "'",
     '’',
   ];
 
-  interval: Subscription[] = [];
+  nameInterval: Subscription[] = [];
+  distanceInterval: Subscription[] = [];
+  timeInterval: Subscription[] = [];
 
   constructor(
     public route: ActivatedRoute,
@@ -148,7 +152,9 @@ export class DestinationComponent implements OnInit, OnDestroy {
         if (this.main) {
           this.validateParams(param['id']);
           this.rotate(param['id']);
-          this.setName(param['id'], 'about');
+          this.setName(param['id'], 'name');
+          this.setName(param['id'], 'distance');
+          this.setName(param['id'], 'time');
         }
       } else this.router.navigate(['/']);
     });
@@ -179,12 +185,16 @@ export class DestinationComponent implements OnInit, OnDestroy {
 
   setName(id: CelestialListKey, str: LoopableKey) {
     const length: number = this.celestialList[id][str].length;
-    this.interval.forEach((sub) => sub.unsubscribe());
+    this[str + 'Interval'].forEach((sub) => sub.unsubscribe());
+    this.about = this.celestialList[id].about;
 
-    while (this[str].length < length) this[str].push('');
+    // character will start from letter A for loop letters in name
+    const pushItem: string = str == 'name' ? 'A' : '';
+
+    while (this[str].length < length) this[str].push(pushItem);
     while (this[str].length > length) this[str].pop();
 
-    this.name.forEach((letter, idx) => {
+    this[str].forEach((letter, idx) => {
       this.changeLetter(str, id, idx);
     });
   }
@@ -197,7 +207,10 @@ export class DestinationComponent implements OnInit, OnDestroy {
     let count: number = this.w.findIndex((letter) => letter == this[str][idx]);
     let isLooping: boolean = true;
 
-    this.interval[idx] = interval(50).subscribe(() => {
+    const intervalNum: number =
+      str == 'name' ? 50 : str == 'distance' ? 20 : 10;
+
+    this[str + 'Interval'][idx] = interval(intervalNum).subscribe(() => {
       if (this[str][idx] > this.celestialList[id][str][idx]) {
         this[str][idx] = this.w[count];
         count--;
@@ -206,11 +219,13 @@ export class DestinationComponent implements OnInit, OnDestroy {
         count++;
       } else isLooping = false;
 
-      if (!isLooping) this.interval[idx].unsubscribe();
+      if (!isLooping) this[str + 'Interval'][idx].unsubscribe();
     });
   }
 
   ngOnDestroy(): void {
-    this.interval.forEach((sub) => sub.unsubscribe());
+    this['nameInterval'].forEach((sub) => sub.unsubscribe());
+    this['distanceInterval'].forEach((sub) => sub.unsubscribe());
+    this['timeInterval'].forEach((sub) => sub.unsubscribe());
   }
 }
