@@ -92,7 +92,6 @@
 }
 
 .desktop-nav__list {
-  // margin: toRem(40) 0 0;
   list-style: none;
   @include display-flex();
   gap: toRem(32);
@@ -172,15 +171,3 @@
     display: inline-block;
   }
 }
-
-// .active-nav__identifier-track {
-//   width: 100%;
-//   overflow: hidden;
-
-//   .active-nav__identifier {
-//     width: 0;
-//     height: toRem(3);
-//     background-color: var(--main-color);
-//     transition: all 0.2s ease-out;
-//   }
-// }

@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { DebugElement, ElementRef } from '@angular/core';
+import { DebugElement, ElementRef, NgZone } from '@angular/core';
 import {
   ComponentFixture,
   discardPeriodicTasks,
@@ -12,6 +12,8 @@ import { ActivatedRoute, Params, Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject } from 'rxjs';
 import { HomeComponent } from './../home/home.component';
+import { SharedService } from './../shared/shared.service';
+import { CelestialKey } from './dest.model';
 import { DestinationComponent } from './destination.component';
 
 describe('DestinationComponent', () => {
@@ -21,6 +23,8 @@ describe('DestinationComponent', () => {
   let location: Location;
   let de: DebugElement;
   let params = new BehaviorSubject<Params>({ id: 'moon' });
+  let zone: NgZone;
+  let sharedService: SharedService;
 
   const routes: Routes = [
     {
@@ -34,10 +38,15 @@ describe('DestinationComponent', () => {
   ];
 
   class ActivatedRouteStub {
-    params = params;
+    params: BehaviorSubject<Params> = params;
 
-    constructor() {}
-    snapshot = {
+    constructor() {
+      params.subscribe((params) => {
+        this.snapshot.params = params;
+      });
+    }
+
+    snapshot: { params: Params } = {
       params: { id: 'moon' },
     };
   }
@@ -58,8 +67,12 @@ describe('DestinationComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     de = fixture.debugElement;
-    router = TestBed.inject(Router);
+    sharedService = de.injector.get(SharedService);
     location = TestBed.inject(Location);
+    zone = TestBed.inject(NgZone);
+
+    zone.run(() => (router = TestBed.inject(Router)));
+    zone.run(() => params.next({ id: 'moon' }));
   });
 
   it('should create', () => {
@@ -84,7 +97,7 @@ describe('DestinationComponent', () => {
 
   describe('router active', () => {
     it('should have element of class active that contain Home after navigating to /', fakeAsync(() => {
-      router.navigate(['destination', 'moon']);
+      zone.run(() => router.navigate(['destination', 'moon']));
       tick();
 
       const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -95,7 +108,7 @@ describe('DestinationComponent', () => {
     }));
 
     it('should have element of class active that contain Home after navigating to /mars', fakeAsync(() => {
-      router.navigate(['destination', 'mars']);
+      zone.run(() => router.navigate(['destination', 'mars']));
       tick();
 
       const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -106,7 +119,7 @@ describe('DestinationComponent', () => {
     }));
 
     it('should have element of class active that contain crew after navigating to /europa', fakeAsync(() => {
-      router.navigate(['destination', 'europa']);
+      zone.run(() => router.navigate(['destination', 'europa']));
       fixture.detectChanges();
       tick();
 
@@ -118,7 +131,7 @@ describe('DestinationComponent', () => {
     }));
 
     it('should have element of class active that contain technology after navigating to /titan', fakeAsync(() => {
-      router.navigate(['destination', 'titan']);
+      zone.run(() => router.navigate(['destination', 'titan']));
       tick();
 
       const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -192,26 +205,32 @@ describe('DestinationComponent', () => {
     expect(transform).toEqual(`rotateZ(180deg)`);
   });
 
-  it('should change deg when rotate() invoked with a new argument', () => {
-    const deg = component.deg;
+  it('should change deg when rotate() invoked with a new argument', fakeAsync(() => {
+    params.next({ id: 'moon' });
+    tick(500);
 
+    const deg = component.deg;
     component.rotate('mars');
 
     expect(deg).not.toBe(component.deg);
-  });
+    discardPeriodicTasks();
+  }));
 
-  it('should change deg when rotate() invoked with the same new argument', () => {
+  it('should change deg when rotate() invoked with the same new argument', fakeAsync(() => {
+    params.next({ id: 'moon' });
+    tick(500);
+
     const deg = component.deg;
-
     component.rotate('moon');
 
     expect(deg).toBe(component.deg);
-  });
+    discardPeriodicTasks();
+  }));
 
   it('should call rotate() at route change', fakeAsync(() => {
     const spy = spyOn(component, 'rotate');
 
-    params.next({ id: 'moon' });
+    zone.run(() => params.next({ id: 'moon' }));
     tick(500);
 
     expect(spy).toHaveBeenCalledTimes(1);
@@ -221,19 +240,19 @@ describe('DestinationComponent', () => {
   it('should change celestial container style rotation based on route', fakeAsync(() => {
     expect(component.deg).withContext('initial').toBe('0');
 
-    params.next({ id: 'mars' });
+    zone.run(() => params.next({ id: 'mars' }));
     tick(500);
     expect(component.deg).withContext('navigated to MARS').toBe('90');
 
-    params.next({ id: 'europa' });
+    zone.run(() => params.next({ id: 'europa' }));
     tick(500);
     expect(component.deg).withContext('navigated to EUROPA').toBe('180');
 
-    params.next({ id: 'titan' });
+    zone.run(() => params.next({ id: 'titan' }));
     tick(500);
     expect(component.deg).withContext('navigated to TITAN').toBe('270');
 
-    params.next({ id: 'moon' });
+    zone.run(() => params.next({ id: 'moon' }));
     tick(500);
     expect(component.deg).withContext('navigated to MOON').toBe('0');
 
@@ -243,7 +262,7 @@ describe('DestinationComponent', () => {
   describe('validateParams()', () => {
     it('should call valideParams() on params change', () => {
       const validateParams = spyOn(component, 'validateParams');
-      params.next({ id: 'marsll' });
+      zone.run(() => params.next({ id: 'marsll' }));
 
       expect(validateParams).toHaveBeenCalledWith('marsll');
     });
@@ -261,16 +280,16 @@ describe('DestinationComponent', () => {
     });
 
     it('should redirect to home page if an invalid destination id params is entered', fakeAsync(() => {
-      router.navigate(['destination', 'marsll']);
-      params.next({ id: 'marsll' });
+      zone.run(() => router.navigate(['destination', 'marsll']));
+      zone.run(() => params.next({ id: 'marsll' }));
       tick();
 
       expect(location.path()).toEqual('/');
     }));
 
     it('should not redirect to home page if a valid destination id params is entered', fakeAsync(() => {
-      router.navigate(['destination', 'mars']);
-      params.next({ id: 'mars' });
+      zone.run(() => router.navigate(['destination', 'mars']));
+      zone.run(() => params.next({ id: 'mars' }));
       tick(500);
 
       expect(location.path()).toEqual('/destination/mars');
@@ -279,58 +298,216 @@ describe('DestinationComponent', () => {
   });
 
   it('should have content title that changes based on route', fakeAsync(() => {
-    const title = de.query(By.css('.content-title')).nativeElement.textContent;
-
-    router.navigate(['destination', 'moon']);
-    tick();
+    zone.run(() => params.next({ id: 'moon' }));
+    tick(5000);
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(title).withContext('initial').toBe('MOON');
-    });
+    expect(de.query(By.css('.content-title')).nativeElement.textContent)
+      .withContext('initial')
+      .toBe('MOON');
 
-    router.navigate(['destination', 'mars']);
-    tick();
+    zone.run(() => params.next({ id: 'mars' }));
+    tick(5000);
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(title).withContext('navigated to MARS').toBe('MARS');
-    });
+    expect(de.query(By.css('.content-title')).nativeElement.textContent)
+      .withContext('navigated to MARS')
+      .toBe('MARS');
 
-    router.navigate(['destination', 'europa']);
-    tick();
+    zone.run(() => params.next({ id: 'europa' }));
+    tick(5000);
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(title).withContext('navigated to EUROPA').toBe('EUROPA');
-    });
+    expect(de.query(By.css('.content-title')).nativeElement.textContent)
+      .withContext('navigated to EUROPA')
+      .toBe('EUROPA');
 
-    router.navigate(['destination', 'titan']);
-    tick();
+    zone.run(() => params.next({ id: 'titan' }));
+    tick(5000);
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(title).withContext('navigated to TITAN').toBe('TITAN');
-    });
+    expect(de.query(By.css('.content-title')).nativeElement.textContent)
+      .withContext('navigated to TITAN')
+      .toBe('TITAN');
   }));
 
-  it('should have 2 units', () => {
-    const units: number = de.queryAll(By.css('.unit-container')).length;
+  describe('distance & time', () => {
+    it('should have 2 units', () => {
+      const units: number = de.queryAll(By.css('.unit-container')).length;
+      expect(units).toBe(2);
+    });
 
-    expect(units).toBe(2);
+    it('should change distance on route change', fakeAsync(() => {
+      const prevVal = de.query(By.css('.unit.distance')).nativeElement
+        .innerText;
+
+      zone.run(() => params.next({ id: 'mars' }));
+      tick(500);
+      fixture.detectChanges();
+
+      const curVal = de.query(By.css('.unit.distance')).nativeElement.innerText;
+
+      expect(prevVal).not.toBe(curVal);
+      discardPeriodicTasks();
+    }));
+
+    it('should change est time travel on route change', fakeAsync(() => {
+      const prevVal = de.query(By.css('.unit.time')).nativeElement.innerText;
+
+      zone.run(() => params.next({ id: 'mars' }));
+      tick(500);
+      fixture.detectChanges();
+
+      const curVal = de.query(By.css('.unit.time')).nativeElement.innerText;
+
+      expect(prevVal).not.toBe(curVal);
+      discardPeriodicTasks();
+    }));
   });
 
-  it('should change distance on route change', fakeAsync(() => {
-    const prevVal = de.query(By.css('.unit.distance')).nativeElement.innerText;
-    router.navigate(['destination', 'mars']);
-    tick();
-    const curVal = de.query(By.css('.unit.distance')).nativeElement.innerText;
+  describe('genInitialCelstialDetails()', () => {
+    it('should return details based on route snapshot params', fakeAsync(() => {
+      params.next({ id: 'moon' });
+      tick(500);
 
-    expect(prevVal).not.toBe(curVal);
-  }));
+      fixture.detectChanges();
+      expect(component.genInitialCelstialDetails('name')).toEqual('MOON');
 
-  it('should change est time travel on route change', fakeAsync(() => {
-    const prevVal = de.query(By.css('.unit.time')).nativeElement.innerText;
-    router.navigate(['destination', 'mars']);
-    tick();
-    const curVal = de.query(By.css('.unit.time')).nativeElement.innerText;
+      params.next({ id: 'mars' });
+      tick(500);
 
-    expect(prevVal).not.toBe(curVal);
-  }));
+      fixture.detectChanges();
+      expect(component.genInitialCelstialDetails('name')).toEqual('MARS');
+
+      params.next({ id: 'europa' });
+      tick(500);
+
+      fixture.detectChanges();
+      expect(component.genInitialCelstialDetails('name')).toEqual('EUROPA');
+
+      params.next({ id: 'titan' });
+      tick(500);
+
+      fixture.detectChanges();
+      expect(component.genInitialCelstialDetails('name')).toEqual('TITAN');
+
+      discardPeriodicTasks();
+    }));
+
+    it('should also return details based on route snapshot argument', fakeAsync(() => {
+      const celestial = sharedService.celestialList['moon'];
+
+      params.next({ id: 'moon' });
+      tick(500);
+
+      fixture.detectChanges();
+      expect(component.genInitialCelstialDetails('name')).toEqual('MOON');
+
+      expect(component.genInitialCelstialDetails('about')).toEqual(
+        celestial['about']
+      );
+      expect(component.genInitialCelstialDetails('distance')).toEqual(
+        celestial['distance']
+      );
+      expect(component.genInitialCelstialDetails('time')).toEqual(
+        celestial['time']
+      );
+      expect(component.genInitialCelstialDetails('deg')).toEqual(
+        celestial['deg']
+      );
+
+      discardPeriodicTasks();
+    }));
+
+    it('should return empty string if params is invalid', fakeAsync(() => {
+      params.next({ id: 'moonrlg' });
+      tick(500);
+
+      fixture.detectChanges();
+      expect(component.genInitialCelstialDetails('name')).toEqual('');
+
+      discardPeriodicTasks();
+    }));
+  });
+
+  describe('changeContent()', () => {
+    it('should be called after component route params change', fakeAsync(() => {
+      const spyFn = spyOn(component, 'changeContent');
+      params.next({ id: 'mars' });
+      tick(5000);
+
+      expect(spyFn).toHaveBeenCalledTimes(3);
+    }));
+
+    it('should change loopable key passed to it after a maximum of five seconds', fakeAsync(() => {
+      const prev: string = sharedService.celestialList.moon.distance;
+      const cur: string = sharedService.celestialList.mars.distance;
+
+      component.name = 'MOON'.split('');
+
+      component.changeContent('mars', 'name');
+      tick(5000);
+
+      expect(component.name.join('')).withContext('name').toBe('MARS');
+
+      component.distance = prev.split('');
+
+      component.changeContent('mars', 'distance');
+      tick(5000);
+
+      expect(component.distance.join('')).withContext('distance').toBe(cur);
+    }));
+
+    it('should change letters per interval based on the new string', fakeAsync(() => {
+      component.name = 'MOON'.split('');
+
+      component.changeContent('mars', 'name');
+      tick(100);
+
+      expect(component.name.join('')).withContext('name').toBe('MNPO');
+      discardPeriodicTasks();
+    }));
+  });
+
+  describe('changeLetter()', () => {
+    it('should change be called when changeContent() is invoked', () => {
+      const spyFn = spyOn(component, 'changeLetter');
+
+      component.changeContent('mars', 'name');
+
+      expect(spyFn).toHaveBeenCalled();
+    });
+
+    it('should change indexed letter of the selected component field based arguments passed', fakeAsync(() => {
+      const key: CelestialKey = 'name';
+      const idx: number = 0;
+      component[key] = 'MOON'.split('');
+
+      component.changeLetter(key, 'europa', idx);
+      tick(100);
+
+      expect(component[key][idx]).toEqual('L');
+      discardPeriodicTasks();
+    }));
+
+    it('should loop backward if indexed letter of the selected component field is lessed than the new', fakeAsync(() => {
+      const key: CelestialKey = 'name';
+      const idx: number = 0;
+      component[key] = 'MOON'.split('');
+
+      component.changeLetter(key, 'europa', idx);
+      tick(100);
+
+      expect(component[key][idx]).toEqual('L');
+      discardPeriodicTasks();
+    }));
+
+    it('should loop forward if indexed letter of the selected component field is lessed than the new', fakeAsync(() => {
+      const key: CelestialKey = 'name';
+      const idx: number = 0;
+      component[key] = 'MOON'.split('');
+
+      component.changeLetter(key, 'titan', idx);
+      tick(100);
+
+      expect(component[key][idx]).toEqual('N');
+      discardPeriodicTasks();
+    }));
+  });
 });

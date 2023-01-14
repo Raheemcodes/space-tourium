@@ -1,18 +1,117 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { delay, of } from 'rxjs';
+import { CelestialList } from './../destination/dest.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedService {
-  constructor(private router: Router) {}
+  celestialList: CelestialList = {
+    moon: {
+      name: 'MOON',
+      about:
+        'See our planet as you’ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you’re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites.',
+      distance: '384,400 km',
+      time: '3 days',
+      deg: '0',
+    },
+    mars: {
+      name: 'MARS',
+      about:
+        'Don’t forget to pack your hiking boots. You’ll need them to tackle Olympus Mons, the tallest planetary mountain in our solar system. It’s two and a half times the size of Everest!',
+      distance: '225 MIL. km',
+      time: '9 months',
+      deg: '90',
+    },
+    europa: {
+      name: 'EUROPA',
+      about:
+        'The smallest of the four Galilean moons orbiting Jupiter, Europa is a winter lover’s dream. With an icy surface, it’s perfect for a bit of ice skating, curling, hockey, or simple relaxation in your snug wintery cabin.',
+      distance: '628 MIL. km',
+      time: '3 years',
+      deg: '180',
+    },
+    titan: {
+      name: 'TITAN',
+      about:
+        'The only moon known to have a dense atmosphere other than Earth, Titan is a home away from home (just a few hundred degrees colder!). As a bonus, you get striking views of the Rings of Saturn.',
+      distance: '1.6 BIL. km',
+      time: '7 years',
+      deg: '270',
+    },
+  };
 
-  navigate(page: string, fragment?: string) {
-    return of('navigate')
-      .pipe(delay(300))
-      .subscribe(() => {
-        this.router.navigate([page], { fragment });
-      });
-  }
+  w: string[] = [
+    '',
+    ' ',
+    '!',
+    ')',
+    '(',
+    ',',
+    '.',
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+    '’',
+  ];
+
+  constructor() {}
 }

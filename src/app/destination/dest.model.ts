@@ -18,3 +18,5 @@ export type CelestialListKey = 'moon' | 'mars' | 'europa' | 'titan';
 export type CelestialKey = 'name' | 'about' | 'distance' | 'time' | 'deg';
 
 export type LoopableKey = 'name' | 'distance' | 'time';
+
+export type IntervalKey = 'nameInterval' | 'distanceInterval' | 'timeInterval';

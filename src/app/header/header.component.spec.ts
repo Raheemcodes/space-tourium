@@ -1,6 +1,7 @@
+import { DOCUMENT } from '@angular/common';
 import { TechComponent } from './../tech/tech.component';
 import { DestinationComponent } from './../destination/destination.component';
-import { DebugElement, ElementRef } from '@angular/core';
+import { DebugElement, ElementRef, NgZone } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -27,6 +28,9 @@ describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let de: DebugElement;
+  let router: Router;
+  let zone: NgZone;
+  let document: Document;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -38,6 +42,9 @@ describe('HeaderComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     de = fixture.debugElement;
+    router = TestBed.inject(Router);
+    document = TestBed.inject(DOCUMENT);
+    zone = TestBed.inject(NgZone);
   });
 
   it('should create', () => {
@@ -59,7 +66,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should have element of class active that contain Home after navigating to /', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/']);
+    zone.run(() => router.navigate(['/']));
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -70,7 +77,7 @@ describe('HeaderComponent', () => {
   }));
 
   it('should have element of class active that contain destination after navigating to /destination', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/destination']);
+    zone.run(() => router.navigate(['/destination']));
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -81,7 +88,7 @@ describe('HeaderComponent', () => {
   }));
 
   it('should have element of class active that contain crew after navigating to /crew', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/crew']);
+    zone.run(() => router.navigate(['/crew']));
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -92,7 +99,7 @@ describe('HeaderComponent', () => {
   }));
 
   it('should have element of class active that contain technology after navigating to /tech', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/tech']);
+    zone.run(() => router.navigate(['/tech']));
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -106,5 +113,60 @@ describe('HeaderComponent', () => {
     const mobileNav = de.query(By.css('app-mobile-nav'));
 
     expect(mobileNav).toBeTruthy();
+  });
+
+  describe('toggleNav()', () => {
+    it('should be called on toggle btn click', () => {
+      const spyFn = spyOn(component, 'toggleNav');
+
+      component.toggleBtn.nativeElement.dispatchEvent(new Event('click'));
+      // de.query(By.css('.toggle-btn')).triggerEventHandler('click');
+
+      expect(spyFn).toHaveBeenCalledTimes(1);
+    });
+
+    it('should open if open is false', () => {
+      component.open = false;
+
+      component.toggleNav();
+      fixture.detectChanges();
+
+      const nav: HTMLElement = document.querySelector('app-mobile-nav')!;
+
+      expect(component.toggleBtn.nativeElement.classList)
+        .withContext('toggle btn')
+        .toContain('opened');
+      expect(nav.classList).withContext('nav').toContain('opened');
+      expect(document.body.classList).withContext('body').toContain('noscroll');
+      expect(component.open).withContext('open').toBeTrue();
+    });
+
+    it('should not open if open is true', () => {
+      component.open = true;
+
+      component.toggleNav();
+      fixture.detectChanges();
+
+      const nav: HTMLElement = document.querySelector('app-mobile-nav')!;
+
+      expect(component.toggleBtn.nativeElement.classList)
+        .withContext('toggle btn')
+        .not.toContain('opened');
+      expect(nav.classList).withContext('nav').not.toContain('opened');
+      expect(document.body.classList)
+        .withContext('body')
+        .not.toContain('noscroll');
+      expect(component.open).withContext('open').toBeFalse();
+    });
+
+    it('should toggle', () => {
+      component.open = false;
+
+      component.toggleNav();
+      expect(component.open).withContext('if open is false').toBeTrue();
+
+      component.toggleNav();
+      expect(component.open).withContext('if open is true').toBeFalse;
+    });
   });
 });

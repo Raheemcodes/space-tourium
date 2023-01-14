@@ -16,8 +16,6 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
-  @ViewChild('activeIdentifier') activeIdentifier!: ElementRef<HTMLElement>;
-  @ViewChild('desktopNavList') desktopNavList!: ElementRef<HTMLElement>;
   @ViewChild('toggleBtn') toggleBtn!: ElementRef<HTMLElement>;
   @ViewChild('mobilenav') nav!: ElementRef<HTMLElement>;
 
@@ -49,7 +47,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
     if (!this.open) {
       this.renderer.addClass(nav, 'opened');
-      this.renderer.addClass(toggleBtn, 'opened');
       this.renderer.addClass(toggleBtn, 'opened');
       this.renderer.addClass(body, 'noscroll');
       this.open = true;

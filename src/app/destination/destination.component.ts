@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  NgZone,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -8,10 +9,12 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { interval, Subscription, timer } from 'rxjs';
+import { SharedService } from '../shared/shared.service';
 import {
   CelestialKey,
   CelestialList,
   CelestialListKey,
+  IntervalKey,
   LoopableKey,
 } from './dest.model';
 
@@ -20,121 +23,17 @@ import {
   templateUrl: './destination.component.html',
   styleUrls: ['./destination.component.scss'],
 })
-export class DestinationComponent implements OnInit {
+export class DestinationComponent implements OnInit, OnDestroy {
   @ViewChild('main') main!: ElementRef<HTMLElement>;
-  celestialList: CelestialList = {
-    moon: {
-      name: 'MOON',
-      about:
-        'See our planet as you’ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you’re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites.',
-      distance: '384,400 km',
-      time: '3 days',
-      deg: '0',
-    },
-    mars: {
-      name: 'MARS',
-      about:
-        'Don’t forget to pack your hiking boots. You’ll need them to tackle Olympus Mons, the tallest planetary mountain in our solar system. It’s two and a half times the size of Everest!',
-      distance: '225 MIL. km',
-      time: '9 months',
-      deg: '90',
-    },
-    europa: {
-      name: 'EUROPA',
-      about:
-        'The smallest of the four Galilean moons orbiting Jupiter, Europa is a winter lover’s dream. With an icy surface, it’s perfect for a bit of ice skating, curling, hockey, or simple relaxation in your snug wintery cabin.',
-      distance: '628 MIL. km',
-      time: '3 years',
-      deg: '180',
-    },
-    titan: {
-      name: 'TITAN',
-      about:
-        'The only moon known to have a dense atmosphere other than Earth, Titan is a home away from home (just a few hundred degrees colder!). As a bonus, you get striking views of the Rings of Saturn.',
-      distance: '1.6 BIL. km',
-      time: '7 years',
-      deg: '270',
-    },
-  };
+  celestialList: CelestialList = this.sharedSV.celestialList;
 
-  name: string[] = this.celestialFn('name').split('');
-  about: string = this.celestialFn('about');
-  distance: string[] = this.celestialFn('distance').split('');
-  time: string[] = this.celestialFn('time').split('');
-  deg: string = this.celestialFn('deg');
+  name: string[] = this.genInitialCelstialDetails('name').split('');
+  about: string = this.genInitialCelstialDetails('about');
+  distance: string[] = this.genInitialCelstialDetails('distance').split('');
+  time: string[] = this.genInitialCelstialDetails('time').split('');
+  deg: string = this.genInitialCelstialDetails('deg');
 
-  w: string[] = [
-    '',
-    ' ',
-    '!',
-    ')',
-    '(',
-    ',',
-    '.',
-    '0',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M',
-    'N',
-    'O',
-    'P',
-    'Q',
-    'R',
-    'S',
-    'T',
-    'U',
-    'V',
-    'W',
-    'X',
-    'Y',
-    'Z',
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-    'f',
-    'g',
-    'h',
-    'i',
-    'j',
-    'k',
-    'l',
-    'm',
-    'n',
-    'o',
-    'p',
-    'q',
-    'r',
-    's',
-    't',
-    'u',
-    'v',
-    'w',
-    'x',
-    'y',
-    'z',
-    '’',
-  ];
+  charList: string[] = this.sharedSV.w;
 
   nameInterval: Subscription[] = [];
   distanceInterval: Subscription[] = [];
@@ -143,7 +42,9 @@ export class DestinationComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     private renderer: Renderer2,
-    private router: Router
+    private router: Router,
+    private sharedSV: SharedService,
+    private zone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -152,11 +53,11 @@ export class DestinationComponent implements OnInit {
         if (this.main) {
           this.validateParams(param['id']);
           this.rotate(param['id']);
-          this.setName(param['id'], 'name');
-          this.setName(param['id'], 'distance');
-          this.setName(param['id'], 'time');
+          this.changeContent(param['id'], 'name');
+          this.changeContent(param['id'], 'distance');
+          this.changeContent(param['id'], 'time');
         }
-      } else this.router.navigate(['/']);
+      } else this.zone.run(() => this.router.navigate(['/']));
     });
   }
 
@@ -164,7 +65,7 @@ export class DestinationComponent implements OnInit {
     return ['moon', 'mars', 'europa', 'titan'].includes(id);
   }
 
-  celestialFn(arg: CelestialKey): string {
+  genInitialCelstialDetails(arg: CelestialKey): string {
     const key = this.route.snapshot.params['id'] as CelestialListKey;
 
     if (this.validateParams(key)) return this.celestialList[key][arg];
@@ -183,9 +84,9 @@ export class DestinationComponent implements OnInit {
     });
   }
 
-  setName(id: CelestialListKey, str: LoopableKey) {
+  changeContent(id: CelestialListKey, str: LoopableKey) {
     const length: number = this.celestialList[id][str].length;
-    this[str + 'Interval'].forEach((sub) => sub.unsubscribe());
+    this[`${str}Interval`].forEach((sub) => sub.unsubscribe());
     this.about = this.celestialList[id].about;
 
     // character will start from letter A for loop letters in name
@@ -199,27 +100,26 @@ export class DestinationComponent implements OnInit {
     });
   }
 
-  changeLetter(
-    str: LoopableKey,
-    id: 'moon' | 'mars' | 'europa' | 'titan',
-    idx: number
-  ) {
-    let count: number = this.w.findIndex((letter) => letter == this[str][idx]);
+  changeLetter(str: LoopableKey, id: CelestialListKey, idx: number) {
+    let count: number = this.charList.findIndex(
+      (letter) => letter == this[str][idx]
+    );
     let isLooping: boolean = true;
+    const intervalKey: IntervalKey = `${str}Interval`;
 
     const intervalNum: number =
       str == 'name' ? 50 : str == 'distance' ? 20 : 10;
 
-    this[str + 'Interval'][idx] = interval(intervalNum).subscribe(() => {
+    this[intervalKey][idx] = interval(intervalNum).subscribe(() => {
       if (this[str][idx] > this.celestialList[id][str][idx]) {
-        this[str][idx] = this.w[count];
+        this[str][idx] = this.charList[count];
         count--;
       } else if (this[str][idx] < this.celestialList[id][str][idx]) {
-        this[str][idx] = this.w[count];
+        this[str][idx] = this.charList[count];
         count++;
       } else isLooping = false;
 
-      if (!isLooping) this[str + 'Interval'][idx].unsubscribe();
+      if (!isLooping) this[intervalKey][idx].unsubscribe();
     });
   }
 

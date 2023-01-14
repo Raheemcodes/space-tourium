@@ -3,7 +3,7 @@ import { CrewComponent } from './../../crew/crew.component';
 import { DestinationComponent } from './../../destination/destination.component';
 import { HomeComponent } from './../../home/home.component';
 import { By } from '@angular/platform-browser';
-import { DebugElement, ElementRef } from '@angular/core';
+import { DebugElement, ElementRef, NgZone } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -25,6 +25,8 @@ describe('MobileNavComponent', () => {
   let component: MobileNavComponent;
   let fixture: ComponentFixture<MobileNavComponent>;
   let de: DebugElement;
+  let router: Router;
+  let zone: NgZone;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,6 +38,8 @@ describe('MobileNavComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     de = fixture.debugElement;
+    router = TestBed.inject(Router);
+    zone = TestBed.inject(NgZone);
   });
 
   it('should create', () => {
@@ -49,7 +53,7 @@ describe('MobileNavComponent', () => {
   });
 
   it('should have element of class active that contain Home after navigating to /', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/']);
+    zone.run(() => router.navigate(['/']));
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -60,7 +64,7 @@ describe('MobileNavComponent', () => {
   }));
 
   it('should have element of class active that contain destination after navigating to /destination', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/destination']);
+    zone.run(() => router.navigate(['/destination']));
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -71,7 +75,7 @@ describe('MobileNavComponent', () => {
   }));
 
   it('should have element of class active that contain crew after navigating to /crew', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/crew']);
+    zone.run(() => router.navigate(['/crew']));
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
@@ -82,7 +86,7 @@ describe('MobileNavComponent', () => {
   }));
 
   it('should have element of class active that contain technology after navigating to /tech', fakeAsync(() => {
-    TestBed.inject(Router).navigate(['/tech']);
+    zone.run(() => router.navigate(['/tech']));
     tick();
 
     const navElBtn: ElementRef<HTMLElement> = de.query(
