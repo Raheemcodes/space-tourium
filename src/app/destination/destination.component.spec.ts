@@ -80,7 +80,9 @@ describe('DestinationComponent', () => {
   });
 
   it('should have title', () => {
-    expect(de.query(By.css('.title'))).toBeTruthy();
+    expect(de.query(By.css('.title')).nativeElement.innerText).toBe(
+      '01Pick your destination'.toUpperCase()
+    );
   });
 
   it('should have celestial body of four element', () => {

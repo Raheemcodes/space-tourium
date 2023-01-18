@@ -1,0 +1,350 @@
+@import "../shared/shared";
+
+:host {
+  position: relative;
+}
+
+main {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  padding: toRem(88) toRem(24) 0;
+  overflow-x: hidden;
+  @media screen and (min-width: $md) {
+    padding: toRem(99) toRem(40) 0;
+  }
+
+  @media screen and (min-width: $xl-sp) {
+    padding: toRem(139 + 76) toRem(137) 0;
+    @include display-flex();
+    align-items: flex-end;
+  }
+
+  .bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../../assets/background/crew/background-crew-mobile.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    mix-blend-mode: normal;
+    opacity: 0.25;
+
+    @media screen and (min-width: $md) {
+      background-image: url(../../assets/background/crew/background-crew-tablet.jpg);
+    }
+
+    @media screen and (min-width: $xl-sp) {
+      background-image: url(../../assets/background/crew/background-crew-desktop.jpg);
+    }
+  }
+}
+
+.title {
+  margin: 0 0 toRem(26);
+
+  @media screen and (min-width: $md) {
+    align-self: flex-start;
+    margin: toRem(40) 0 toRem(60);
+  }
+  @media screen and (min-width: $xl-sp) {
+    position: absolute;
+    top: toRem(139 + 76);
+    left: toRem(137);
+    margin: 0;
+  }
+}
+
+span {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: toRem(16);
+  font-weight: 400;
+  line-height: toRem(19);
+  letter-spacing: toRem(2.7);
+  text-transform: uppercase;
+  color: var(--main-color);
+
+  @media screen and (min-width: $md) {
+    font-size: toRem(20);
+    line-height: toRem(24);
+    letter-spacing: toRem(3.375);
+  }
+  @media screen and (min-width: $xl-sp) {
+    font-size: toRem(28);
+    line-height: toRem(34);
+    letter-spacing: toRem(4.7);
+  }
+
+  &.num {
+    opacity: 0.25;
+    font-weight: 700;
+    margin-right: toRem(16);
+
+    @media screen and (min-width: $md) {
+      margin-right: toRem(18);
+    }
+    @media screen and (min-width: $xl-sp) {
+      margin-right: toRem(28);
+    }
+  }
+}
+
+.crew-container {
+  @include column-centered-start();
+  width: 100%;
+  height: 100%;
+}
+
+.crew-main__container {
+  @include column-centered-start();
+  width: 100%;
+  height: 100%;
+  gap: toRem(32);
+
+  @media screen and (min-width: $md) {
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    gap: toRem(40);
+  }
+  @media screen and (min-width: $xl-sp) {
+    @include between();
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    gap: toRem(40);
+  }
+}
+
+.crew-img__main-container {
+  position: relative;
+  width: 100%;
+  border-bottom: toRem(1) solid #383b4b;
+
+  @media screen and (min-width: $xl-sp) {
+    width: auto;
+    border-bottom: 0;
+  }
+}
+
+.crew-img-list {
+  @include centered();
+  list-style: none;
+  align-items: flex-end;
+  width: 100%;
+  transition: all 0.3s ease-out;
+}
+
+.crew-img__container {
+  @include centered();
+  position: absolute;
+  width: 100%;
+  height: toRem(233);
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateX(0) scale(0.3);
+  transition: all 0.75s ease-out;
+  transform-origin: center bottom;
+
+  @media screen and (min-width: $xl-sp) {
+    transform: translateX(-50%) scale(0.3);
+  }
+
+  &:nth-child(1) {
+    position: static;
+  }
+
+  &.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  &.inactive {
+    opacity: 0;
+    transform: translate(0) scale(1);
+  }
+
+  @media screen and (min-width: $md) {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.crew-img {
+  width: auto;
+  height: 100%;
+}
+
+.content-container {
+  @include column-centered-start();
+  gap: toRem(32);
+  width: 100%;
+  height: 100%;
+
+  @media screen and (min-width: $md) {
+    flex-direction: column-reverse;
+    gap: toRem(40);
+  }
+  @media screen and (min-width: $xl-sp) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: toRem(120);
+  }
+}
+
+.pagination-list {
+  list-style: none;
+  @include display-flex();
+  gap: toRem(16);
+
+  @media screen and (min-width: $xl-sp) {
+    gap: toRem(24);
+    margin-bottom: toRem(94);
+  }
+
+  .pagination {
+    width: toRem(10);
+    height: toRem(10);
+    border-radius: 50%;
+    background-color: var(--main-color);
+    cursor: pointer;
+    opacity: 0.17;
+    transition: all 0.3s ease-out;
+
+    @media screen and (min-width: $xl-sp) {
+      width: toRem(15);
+      height: toRem(15);
+      gap: toRem(24);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+
+    &.active {
+      opacity: 1;
+    }
+  }
+}
+
+.crew-content__container {
+  width: 100%;
+  max-width: toRem(327);
+
+  @media screen and (min-width: $md) {
+    max-width: toRem(458);
+  }
+  @media screen and (min-width: $xl-sp) {
+    max-width: toRem(614);
+  }
+}
+
+.crew-content-list {
+  position: relative;
+  list-style: none;
+  width: 100%;
+  @include display-flex();
+}
+
+.crew-content {
+  width: 100%;
+  flex-shrink: 0;
+  position: absolute;
+  opacity: 0;
+  transform: translateX(0) scale(0.3);
+  transition: all 0.75s ease-out;
+  transform-origin: center bottom;
+
+  @media screen and (min-width: $xl-sp) {
+    transform: translateX(50%) scale(0.3);
+  }
+
+  &:nth-child(1) {
+    position: static;
+  }
+
+  &.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  &.inactive {
+    opacity: 0;
+    transform: translate(0) scale(1);
+  }
+
+  .position {
+    font-family: "Bellefair", serif;
+    font-size: toRem(16);
+    font-weight: 400;
+    line-height: toRem(18);
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--main-color);
+    opacity: 0.5;
+    margin-bottom: toRem(8);
+
+    @media screen and (min-width: $md) {
+      font-size: toRem(24);
+      line-height: toRem(28);
+    }
+    @media screen and (min-width: $xl-sp) {
+      font-size: toRem(32);
+      line-height: toRem(37);
+      text-align: left;
+      margin-bottom: toRem(15);
+    }
+  }
+
+  .name {
+    font-family: "Bellefair", serif;
+    font-size: toRem(24);
+    font-weight: 400;
+    line-height: toRem(28);
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--main-color);
+    margin-bottom: toRem(16);
+
+    @media screen and (min-width: $md) {
+      font-size: toRem(40);
+      line-height: toRem(46);
+    }
+    @media screen and (min-width: $xl-sp) {
+      font-size: toRem(56);
+      line-height: toRem(64);
+      text-align: left;
+      margin-bottom: toRem(27);
+    }
+  }
+
+  .about {
+    font-size: toRem(15);
+    font-weight: 400;
+    line-height: toRem(25);
+    text-align: center;
+    color: var(--main-blue);
+
+    @media screen and (min-width: $md) {
+      font-size: toRem(16);
+      line-height: toRem(28);
+    }
+    @media screen and (min-width: $xl-sp) {
+      max-width: toRem(444);
+      font-size: toRem(18);
+      line-height: toRem(32);
+      text-align: left;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

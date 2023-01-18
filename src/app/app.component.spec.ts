@@ -1,3 +1,4 @@
+import { FadeDirective } from './fade.directive';
 import { MobileNavComponent } from './header/mobile-nav/mobile-nav.component';
 import { By } from '@angular/platform-browser';
 import { HeaderComponent } from './header/header.component';

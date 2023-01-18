@@ -1,1 +1,64 @@
-<p>crew works!</p>
+<main>
+  <div class="bg-img"></div>
+  <div class="crew-container">
+    <div class="title">
+      <span class="num">02</span>
+      <span class="content">Meet your crew</span>
+    </div>
+
+    <div class="crew-main__container">
+      <div class="crew-img__main-container">
+        <ul class="crew-img-list" #imgList>
+          <li
+            [ngClass]="{
+              'crew-img__container': true,
+              active: i == curIdx,
+              inactive: i == prevIdx
+            }"
+            *ngFor="let member of crew; let i = index"
+          >
+            <img
+              class="crew-img"
+              [width]="member.width"
+              [height]="member.height"
+              [ngSrc]="member.img"
+              alt
+              [priority]="i == 0"
+            />
+          </li>
+        </ul>
+      </div>
+
+      <div class="content-container">
+        <ul class="pagination-list">
+          <li
+            [ngClass]="{
+              pagination: true,
+              active: i == curIdx,
+              inactive: i == prevIdx
+            }"
+            *ngFor="let item of crew; let i = index"
+            (click)="changeSlide(i)"
+          ></li>
+        </ul>
+
+        <div class="crew-content__container">
+          <ul class="crew-content-list" #contentList>
+            <li
+              [ngClass]="{
+                'crew-content': true,
+                active: i == curIdx,
+                inactive: i == prevIdx
+              }"
+              *ngFor="let member of crew; let i = index"
+            >
+              <div class="position">{{ member.pos }}</div>
+              <div class="name">{{ member.name }}</div>
+              <div class="about">{{ member.about }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
