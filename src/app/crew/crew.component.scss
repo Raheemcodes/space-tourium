@@ -112,7 +112,7 @@ span {
     @include between();
     flex-direction: row-reverse;
     align-items: flex-end;
-    gap: toRem(40);
+    gap: 0;
   }
 }
 

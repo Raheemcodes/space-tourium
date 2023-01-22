@@ -1,5 +1,5 @@
-import { Component, OnInit, Renderer2, OnDestroy } from '@angular/core';
-import { interval, timer, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { interval, Subscription, timer } from 'rxjs';
 import { Person } from './crew.model';
 
 @Component({
@@ -52,7 +52,7 @@ export class CrewComponent implements OnInit, OnDestroy {
   interval!: Subscription;
   timer: Subscription[] = [];
 
-  constructor(private renderer: Renderer2) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.loop();
@@ -61,6 +61,9 @@ export class CrewComponent implements OnInit, OnDestroy {
   changeSlide(idx: number) {
     if (!this.isAnimating) {
       this.timer.forEach((sub) => sub.unsubscribe());
+      this.interval.unsubscribe();
+      this.loop();
+
       this.isAnimating = true;
       this.prevIdx = this.curIdx;
 
