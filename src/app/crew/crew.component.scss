@@ -42,6 +42,12 @@ main {
   }
 }
 
+.crew-container {
+  @include column-centered-start();
+  width: 100%;
+  height: 100%;
+}
+
 .title {
   margin: 0 0 toRem(26);
 
@@ -89,12 +95,6 @@ span {
       margin-right: toRem(28);
     }
   }
-}
-
-.crew-container {
-  @include column-centered-start();
-  width: 100%;
-  height: 100%;
 }
 
 .crew-main__container {

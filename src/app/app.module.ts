@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CrewComponent } from './crew/crew.component';
 import { DestinationComponent } from './destination/destination.component';
-import { FadeDirective } from './fade.directive';
 import { HeaderComponent } from './header/header.component';
 import { MobileNavComponent } from './header/mobile-nav/mobile-nav.component';
 import { HomeComponent } from './home/home.component';
@@ -24,7 +23,7 @@ import { TechComponent } from './tech/tech.component';
     // FadeDirective,
   ],
   imports: [BrowserModule, AppRoutingModule, NgOptimizedImage],
-  providers: [],
+  providers: [{ provide: 'Window', useValue: window }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

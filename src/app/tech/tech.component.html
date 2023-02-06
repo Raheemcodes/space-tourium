@@ -1,1 +1,54 @@
-<p>tech works!</p>
+<main>
+  <div class="bg-img"></div>
+
+  <div class="tech-main__container">
+    <div class="title">
+      <span class="num">03</span>
+      <span class="content">SPACE LAUNCH 101</span>
+    </div>
+
+    <div class="tech-container">
+      <div class="tech-img__container">
+        <ul
+          class="tech-img__list"
+          style.transform="translate({{
+            screenWidth < 1440 ? -idx * 100 : 0
+          }}%, {{ screenWidth >= 1440 ? -idx * 100 : 0 }}%)"
+        >
+          <li class="tech-img" *ngFor="let item of tech">
+            <img class="landscape" [src]="item.img.landscape" />
+            <img class="portrait" [src]="item.img.portrait" />
+          </li>
+        </ul>
+      </div>
+
+      <div class="tech-content__container">
+        <ul class="pagination-list">
+          <li
+            class="pagination"
+            [class.active]="i == idx"
+            *ngFor="let item of tech; let i = index"
+            (click)="paginate(i)"
+          >
+            {{ i + 1 }}
+          </li>
+        </ul>
+
+        <div class="tech-content__list-container">
+          <ul
+            class="tech-content__list"
+            style.transform="translate({{
+              screenWidth < 1440 ? -idx * 100 : 0
+            }}%, {{ screenWidth >= 1440 ? -idx * 100 : 0 }}%)"
+          >
+            <li class="tech-content" *ngFor="let item of tech">
+              <div class="term">THE TERMINOLOGY…</div>
+              <div class="name">{{ item.name }}</div>
+              <div class="desc">{{ item.desc }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

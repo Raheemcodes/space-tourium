@@ -1,0 +1,332 @@
+@import "./../shared/shared";
+
+main {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  padding: toRem(88) 0 toRem(24);
+  overflow-x: hidden;
+  @media screen and (min-width: $md) {
+    padding: toRem(99) 0 toRem(24);
+  }
+
+  @media screen and (min-width: $xl-sp) {
+    padding: toRem(139 + 76) 0 toRem(24);
+  }
+
+  .bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../../assets/background/tech/background-technology-mobile.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    mix-blend-mode: normal;
+    opacity: 0.25;
+
+    @media screen and (min-width: $md) {
+      background-image: url(../../assets/background/tech/background-technology-tablet.jpg);
+    }
+
+    @media screen and (min-width: $xl-sp) {
+      background-image: url(../../assets/background/tech/background-technology-desktop.jpg);
+    }
+  }
+}
+
+.tech-main__container {
+  @include column-centered-start();
+  width: 100%;
+  height: 100%;
+}
+
+.title {
+  margin: 0 0 toRem(32);
+  padding: 0 toRem(24) 0;
+
+  @media screen and (min-width: $md) {
+    align-self: flex-start;
+    margin: toRem(40) 0 toRem(60);
+    padding: 0 toRem(40) 0;
+  }
+  @media screen and (min-width: $xl-sp) {
+    margin: 0 0 toRem(26);
+    padding: 0 toRem(137) 0;
+  }
+}
+
+span {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: toRem(16);
+  font-weight: 400;
+  line-height: toRem(19);
+  letter-spacing: toRem(2.7);
+  text-transform: uppercase;
+  color: var(--main-color);
+
+  @media screen and (min-width: $md) {
+    font-size: toRem(20);
+    line-height: toRem(24);
+    letter-spacing: toRem(3.375);
+  }
+  @media screen and (min-width: $xl-sp) {
+    font-size: toRem(28);
+    line-height: toRem(34);
+    letter-spacing: toRem(4.7);
+  }
+
+  &.num {
+    opacity: 0.25;
+    font-weight: 700;
+    margin-right: toRem(16);
+
+    @media screen and (min-width: $md) {
+      margin-right: toRem(18);
+    }
+    @media screen and (min-width: $xl-sp) {
+      margin-right: toRem(28);
+    }
+  }
+}
+
+.tech-container {
+  position: relative;
+  @include column-centered-start();
+  width: 100%;
+  height: 100%;
+  gap: toRem(34);
+
+  @media screen and (min-width: $md) {
+    gap: toRem(56);
+  }
+  @media screen and (min-width: $xl-sp) {
+    @include between-centered();
+    flex-direction: row-reverse;
+    gap: toRem(24);
+  }
+}
+
+.tech-img__container {
+  width: 100%;
+  overflow: hidden;
+
+  @media screen and (min-width: $xl-sp) {
+    width: toRem(515);
+    height: toRem(527);
+    flex-shrink: 0;
+  }
+}
+
+.tech-img__list {
+  list-style: none;
+  @include display-flex();
+  width: 100%;
+  transition: all 0.3s ease-out;
+
+  @media screen and (min-width: $xl-sp) {
+    flex-direction: column;
+    width: auto;
+    height: 100%;
+  }
+}
+
+.tech-img {
+  width: 100%;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: auto;
+
+    @media screen and (min-width: $xl-sp) {
+      flex-direction: column;
+      width: auto;
+      height: 100%;
+    }
+
+    &.landscape {
+      display: block;
+
+      @media screen and (min-width: $xl-sp) {
+        display: none;
+      }
+    }
+
+    &.portrait {
+      display: none;
+
+      @media screen and (min-width: $xl-sp) {
+        display: block;
+      }
+    }
+  }
+}
+
+.tech-content__container {
+  @include column-centered();
+  width: 100%;
+  padding: 0 toRem(24) 0;
+
+  @media screen and (min-width: $md) {
+    padding: 0 toRem(40) 0;
+  }
+
+  @media screen and (min-width: $xl-sp) {
+    @include display-flex();
+    gap: toRem(80);
+    padding: 0 0 0 toRem(137);
+  }
+}
+
+.pagination-list {
+  list-style: none;
+  @include centered();
+  gap: toRem(16);
+  margin-bottom: toRem(26);
+
+  @media screen and (min-width: $md) {
+    margin-bottom: toRem(44);
+  }
+
+  @media screen and (min-width: $xl-sp) {
+    flex-direction: column;
+    gap: toRem(32);
+    margin: 0;
+  }
+
+  .pagination {
+    @include centered();
+    width: toRem(40);
+    height: toRem(40);
+    font-family: "Bellefair", serif;
+    font-weight: 400;
+    font-size: toRem(16);
+    line-height: toRem(18);
+    background-color: #0000;
+    border-radius: 50%;
+    border: toRem(1) solid rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+
+    @media screen and (min-width: $md) {
+      width: toRem(60);
+      height: toRem(60);
+      font-size: toRem(24);
+      line-height: toRem(28);
+    }
+    @media screen and (min-width: $xl-sp) {
+      width: toRem(80);
+      height: toRem(80);
+      font-family: Bellefair;
+      font-size: toRem(32);
+      line-height: toRem(37);
+      letter-spacing: toRem(2);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        border: toRem(1) solid rgb(255, 255, 255);
+      }
+    }
+
+    &.active {
+      background-color: var(--main-color);
+      color: var(--main-black);
+    }
+  }
+}
+
+.tech-content__list-container {
+  width: 100%;
+  max-width: toRem(458);
+  @include centered();
+  overflow: hidden;
+
+  @media screen and (min-width: $xl-sp) {
+    max-width: toRem(470);
+    height: toRem(303);
+  }
+}
+
+.tech-content__list {
+  @include display-flex();
+  list-style: none;
+  width: 100%;
+  height: 100%;
+  transition: 0.3s all ease-out;
+
+  @media screen and (min-width: $xl-sp) {
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+}
+
+.tech-content {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+
+  .term {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: toRem(14);
+    font-weight: 400;
+    line-height: toRem(17);
+    text-align: center;
+    color: var(--main-blue);
+    margin-bottom: toRem(9);
+
+    @media screen and (min-width: $md) {
+      font-size: toRem(16);
+      line-height: toRem(19);
+      letter-spacing: toRem(2.7);
+      margin-bottom: toRem(16);
+    }
+    @media screen and (min-width: $xl-sp) {
+      text-align: left;
+      margin-bottom: toRem(11);
+    }
+  }
+
+  .name {
+    font-family: "Bellefair", serif;
+    font-size: toRem(24);
+    font-weight: 400;
+    line-height: toRem(28);
+    text-align: center;
+    color: var(--main-color);
+    margin-bottom: toRem(16);
+
+    @media screen and (min-width: $md) {
+      font-size: toRem(40);
+      line-height: toRem(46);
+    }
+    @media screen and (min-width: $xl-sp) {
+      font-size: toRem(56);
+      line-height: toRem(64);
+      text-align: left;
+      margin-bottom: toRem(17);
+    }
+  }
+
+  .desc {
+    font-family: "Barlow", sans-serif;
+    font-size: toRem(15);
+    font-weight: 400;
+    line-height: toRem(25);
+    text-align: center;
+    color: var(--main-blue);
+
+    @media screen and (min-width: $md) {
+      font-size: toRem(16);
+      line-height: toRem(28);
+    }
+    @media screen and (min-width: $xl-sp) {
+      max-width: toRem(444);
+      font-size: toRem(18);
+      line-height: toRem(32);
+      text-align: left;
+    }
+  }
+}
