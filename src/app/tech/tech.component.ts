@@ -42,9 +42,7 @@ export class TechComponent implements OnInit {
 
   constructor(@Inject('Window') private window: Window) {}
 
-  ngOnInit(): void {
-    console.log(this.screenWidth);
-  }
+  ngOnInit(): void {}
 
   @HostListener('window:resize') resize() {
     this.screenWidth = this.window.innerWidth;

@@ -16,8 +16,18 @@
           }}%, {{ screenWidth >= 1440 ? -idx * 100 : 0 }}%)"
         >
           <li class="tech-img" *ngFor="let item of tech">
-            <img class="landscape" [src]="item.img.landscape" />
-            <img class="portrait" [src]="item.img.portrait" />
+            <img
+              class="landscape"
+              [src]="item.img.landscape"
+              width="768"
+              height="310"
+            />
+            <img
+              class="portrait"
+              [src]="item.img.portrait"
+              width="515"
+              height="527"
+            />
           </li>
         </ul>
       </div>
